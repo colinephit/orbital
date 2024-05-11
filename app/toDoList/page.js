@@ -1,9 +1,18 @@
-import Link from 'next/link'
+import Link from "next/link";
+import Header from "./components/Header";
+import "bootstrap/dist/css/bootstrap.css";
+import HomePageButton from "./components/HomePageButton";
+import ListGroup from "./components/ListGroup";
+
 export default function Page() {
   return (
     <>
-      <h1>To Do List</h1>
-      <h2><Link href="/">Back to Home Page</Link></h2>
+      <div>
+        <HomePageButton></HomePageButton>
+      </div>
+      <div>
+        <ListGroup></ListGroup>
+      </div>
     </>
-  )
+  );
 }
