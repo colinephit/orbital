@@ -1,14 +1,14 @@
-"use client";
+//"use client";
 
 function TipsCarousel() {
   return (
-    <div id="carouselExampleCaptions" class="carousel slide">
-      <div class="carousel-indicators">
+    <div id="carouselExampleCaptions" className="carousel slide">
+      <div className="carousel-indicators">
         <button
           type="button"
           data-bs-target="#carouselExampleCaptions"
           data-bs-slide-to="0"
-          class="active"
+          className="active"
           aria-current="true"
           aria-label="Slide 1"
         ></button>
@@ -25,46 +25,46 @@ function TipsCarousel() {
           aria-label="Slide 3"
         ></button>
       </div>
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img src="/StudyImage1.jpeg" class="d-block w-100" alt="..." />
-          <div class="carousel-caption d-none d-md-block">
+      <div className="carousel-inner">
+        <div className="carousel-item active p-10">
+          <img src="/StudyImage1.jpeg" className="d-block w-100" alt="..." />
+          <div className="carousel-caption d-none d-md-block">
             <h5>Tip #1</h5>
             <p>Don't forget to take breaks!</p>
           </div>
         </div>
-        <div class="carousel-item">
-          <img src="..." class="d-block w-100" alt="..." />
-          <div class="carousel-caption d-none d-md-block">
+        <div className="carousel-item">
+          <img src="..." className="d-block w-100" alt="..." />
+          <div className="carousel-caption d-none d-md-block">
             <h5>Tip #2</h5>
             <p>Some representative placeholder content for the second slide.</p>
           </div>
         </div>
-        <div class="carousel-item">
-          <img src="..." class="d-block w-100" alt="..." />
-          <div class="carousel-caption d-none d-md-block">
+        <div className="carousel-item">
+          <img src="..." className="d-block w-100" alt="..." />
+          <div className="carousel-caption d-none d-md-block">
             <h5>Tip #3</h5>
             <p>Some representative placeholder content for the third slide.</p>
           </div>
         </div>
       </div>
       <button
-        class="carousel-control-prev"
+        className="carousel-control-prev"
         type="button"
         data-bs-target="#carouselExampleCaptions"
         data-bs-slide="prev"
       >
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
+        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span className="visually-hidden">Previous</span>
       </button>
       <button
-        class="carousel-control-next"
+        className="carousel-control-next"
         type="button"
         data-bs-target="#carouselExampleCaptions"
         data-bs-slide="next"
       >
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
+        <span className="carousel-control-next-icon" aria-hidden="true"></span>
+        <span className="visually-hidden">Next</span>
       </button>
     </div>
   );

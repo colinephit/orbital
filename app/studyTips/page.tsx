@@ -1,5 +1,4 @@
-import Link from "next/link";
-import React from "react";
+import * as React from "react"
 import "bootstrap/dist/css/bootstrap.css";
 import HomePageButton from "./HomePageButton";
 import TipsCarousel from "./TipsCarousel";
