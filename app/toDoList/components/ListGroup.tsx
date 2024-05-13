@@ -1,7 +1,7 @@
 "use client";
 
 function ListGroup() {
-  const items = [
+  let items = [
     "CS2030S lab",
     "CS2040S tutorial",
     "Math tutorial",
@@ -11,10 +11,10 @@ function ListGroup() {
   return (
     <>
       <h1>To Do List</h1>
-      <ul class="list-group">
+      <ul className="list-group">
         {items.map((item) => (
           <li
-            class="list-group-item"
+            className="list-group-item"
             key={item}
             onClick={() => console.log("done!")}
           >
