@@ -1,4 +1,6 @@
 import Link from "next/link";
+import LogIn from "./Login";
+import React from "react";
 
 function NavigationBar() {
   return (
@@ -67,7 +69,7 @@ function NavigationBar() {
               <a>Settings</a>
             </li>
             <li>
-              <a>Logout</a>
+              <LogIn />
             </li>
           </ul>
         </div>

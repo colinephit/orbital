@@ -2,12 +2,10 @@ import * as React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import HomePageButton from "./HomePageButton";
 import TipsCarousel from "./TipsCarousel";
-import NavigationBar from "../NavigationBar";
 
 export default function StudyTips() {
   return (
     <div>
-      <NavigationBar></NavigationBar>
       <h1>Productivity Tips</h1>
       <TipsCarousel></TipsCarousel>
       <div className="card w-96 bg-base-100 shadow-xl">
