@@ -26,9 +26,14 @@
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "app/toDoList/components/HomePageButton.tsx", "app/toDoList/components/HomePageButton.tsx", "firebase/clientApp.ts",
-  "exapp/components/toDoList/components/HomePageButton.tsx",
+    "**/*.tsx",
+    "app/toDoList/components/HomePageButton.tsx",
+    "app/toDoList/components/HomePageButton.tsx",
+    "firebase/clientApp.ts",
+    "exapp/components/toDoList/components/HomePageButton.tsx",
     "app/components/toDoList/components/HomePageButton.tsx"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
