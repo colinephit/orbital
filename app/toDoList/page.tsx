@@ -1,15 +1,10 @@
-import Link from "next/link";
-import Header from "./components/Header";
 import "bootstrap/dist/css/bootstrap.css";
-import ListGroup from "./components/ListGroup";
-import Checkboxes from "./components/Checkbox,";
+import ToDoTable from "./components/ToDoTable";
 
 export default function Page() {
   return (
     <>
-      <div>
-        <ListGroup></ListGroup>
-      </div>
+      <ToDoTable></ToDoTable>
     </>
   );
 }
