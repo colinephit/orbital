@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import { purple, pink } from "@mui/material/colors";
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
+import { Typography } from "@mui/material";
 
 function ToDoTable() {
   const [todo, setTodo] = useState({ Task: "", Time: "", Subject: "" });
@@ -67,12 +68,13 @@ function ToDoTable() {
           </tr>
         </tbody>
       </table>
-      <Button
-        variant="contained"
-        sx={{ backgroundColor: purple[300], mt: 3, ml: 70 }}
-      >
-        Add Task
-      </Button>
+        <Button
+          variant="contained"
+          sx={{ backgroundColor: purple[300], mt: 3, ml: 70, margin: '0 auto', display:'flex', hover:purple[300]}}
+        >
+          Add Task
+        </Button>
+      
     </div>
   );
 }
