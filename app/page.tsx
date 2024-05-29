@@ -1,7 +1,12 @@
 import Link from "next/link";
 import "bootstrap/dist/css/bootstrap.css";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./auth";
 
-export default function Home() {
+export default async function Home() {
+  const session = await getServerSession(authOptions);
+  console.log("help");
+  
   return (
     <div>
       {/* <h1>
