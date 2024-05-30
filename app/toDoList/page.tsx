@@ -6,11 +6,9 @@ import { authOptions } from "../auth";
 export default async function Page() {
   const session = await getServerSession(authOptions);
   if (session == null) {
-    return (
-      <div>You need to log in first :D</div>
-    )
+    return <div className="text-2xl">You need to log in first :D</div>;
   }
-  
+
   return (
     <>
       <ToDoTable />
