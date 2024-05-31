@@ -3,7 +3,6 @@
 import React from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 const LogIn = () => {
   const { data: session } = useSession();
@@ -24,8 +23,8 @@ const LogIn = () => {
           >
             <div className="w-10 rounded-full">
               <img
-                alt="Tailwind CSS Navbar component"
                 src={session.user.image}
+                alt="Tailwind CSS Navbar component"
               />
             </div>
           </div>
