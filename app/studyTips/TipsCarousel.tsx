@@ -2,18 +2,20 @@
 import React, { useState } from "react";
 import NavigateBeforeRoundedIcon from "@mui/icons-material/NavigateBeforeRounded";
 import NavigateNextRoundedIcon from "@mui/icons-material/NavigateNextRounded";
+import Flashcard from "./Flashcard";
 
-const Carousel = ({ images }) => {
+const Carousel = ({ flashcards }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+
   const nextSlide = () => {
     setActiveIndex((prevIndex) =>
-      prevIndex == images.length - 1 ? 0 : prevIndex + 1
+      prevIndex == flashcards.length - 1 ? 0 : prevIndex + 1
     );
   };
 
   const prevSlide = () => {
     setActiveIndex((prevIndex) =>
-      prevIndex == 0 ? images.length - 1 : prevIndex - 1
+      prevIndex == 0 ? flashcards.length - 1 : prevIndex - 1
     );
   };
 
@@ -24,12 +26,8 @@ const Carousel = ({ images }) => {
           sx={{ fontSize: 70, display: "inline-block" }}
         />
       </button>
-      <div className="object-contain">
-        <img
-          src={images[activeIndex]}
-          alt={`Slide ${activeIndex}`}
-          className="object-contain"
-        />
+      <div>
+        <Flashcard flashcard={flashcards[activeIndex]} />
       </div>
       <button onClick={nextSlide} className="object-center pt-30">
         <NavigateNextRoundedIcon

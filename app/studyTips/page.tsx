@@ -5,17 +5,6 @@ import Header from "../Header";
 import TipsCarousel from "./TipsCarousel";
 
 export default function StudyTips() {
-  const images = [
-    "/Card1_Front.png",
-    "/Card2_Front.png",
-    "/Card3_Front.png",
-    "/Card4_Front.png",
-    "/Card5_Front.png",
-    "/Card6_Front.png",
-    "/Card7_Front.png",
-    "/Card8_Front.png",
-  ];
-
   const flashcards = [
     { id: 1, image_front: "/Card1_Front.png", image_back: "/Card1_Back.png" },
     { id: 2, image_front: "/Card2_Front.png", image_back: "/Card2_Back.png" },
@@ -31,12 +20,12 @@ export default function StudyTips() {
 
   return (
     <div>
-      <div className="p-3">
+      <div className="p-4">
         <Header title="Productivity Tips" />
       </div>
 
       <div className="p-5">
-        <TipsCarousel images={images} />
+        <TipsCarousel flashcards={flashcards} />
       </div>
     </div>
   );
