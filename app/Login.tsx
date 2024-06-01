@@ -35,11 +35,7 @@ const LogIn = () => {
             <li>
               <a className="justify-between">{session.user.name}</a>
             </li>
-            <li>
-              <a href="/aboutUs">
-                <button>About Us</button>
-              </a>
-            </li>
+
             <li>
               <button onClick={() => signOut()}>Logout</button>
             </li>
