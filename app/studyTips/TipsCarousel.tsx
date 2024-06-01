@@ -26,7 +26,7 @@ const Carousel = ({ flashcards }) => {
           sx={{ fontSize: 70, display: "inline-block" }}
         />
       </button>
-      <div>
+      <div className="hover:shadow-2xl shadow-gray-600">
         <Flashcard flashcard={flashcards[activeIndex]} />
       </div>
       <button onClick={nextSlide} className="object-center pt-30">
