@@ -5,6 +5,13 @@ import Button from "@mui/material/Button";
 import { purple, pink } from "@mui/material/colors";
 import { useEffect, useState, createContext } from "react";
 import TextField from "@mui/material/TextField";
+import ToDoButton from "./ToDoButton";
+import PendingToDoTextField from "./PendingToDoListTable/PendingToDoTextField";
+import InputTextField from "./InputTextField";
+import CompletedToDoListTable from "./CompletedToDoListTable/CompletedToDoTable";
+import PendingRow from "./PendingToDoListTable/PendingRow";
+import ModifiedCheckbox from "./PendingToDoListTable/ModifiedCheckbox";
+import PopUp from "./Rewards/PopUp";
 import {
   Checkbox,
   Container,
@@ -219,6 +226,12 @@ function ToDoTable() {
   return (
     <div className="overflow-x-auto">
       <h1>Hello, {currentUser.data.user.name} </h1>
+
+      {/*table for users to add a new task*/}
+      <h2 className="text-center font-bold pt-10 underline">
+        Add a new task here
+      </h2>
+
       <form className="overflow-x-auto" onSubmit={handleSubmit}>
         <table className="table">
           {/* head */}
@@ -238,28 +251,20 @@ function ToDoTable() {
               <td>
                 <div className="flex items-center gap-3"></div>
                 <div>
-                  <div>
-                    <TextField
-                      fullWidth
-                      label="Subject"
-                      value={Subject}
-                      onChange={(e) => setSubject(e.target.value)}
-                      required
-                      autoComplete="off"
-                    ></TextField>
-                  </div>
+                  <InputTextField
+                    value={Subject}
+                    label={"Subject"}
+                    onChangeAction={(e) => setSubject(e.target.value)}
+                  />
                 </div>
               </td>
               <td>
                 <div>
-                  <TextField
-                    fullWidth
-                    label="Task"
+                  <InputTextField
                     value={Task}
-                    onChange={(e) => setTask(e.target.value)}
-                    required
-                    autoComplete="off"
-                  ></TextField>
+                    label={"Task"}
+                    onChangeAction={(e) => setTask(e.target.value)}
+                  />
                 </div>
               </td>
               <td>
@@ -281,129 +286,162 @@ function ToDoTable() {
           type="submit"
           variant="contained"
           sx={{
-            backgroundColor: purple[300],
+            backgroundColor: pink[300],
             mt: 3,
             ml: 70,
             margin: "0 auto",
             display: "flex",
-            hover: purple[300],
+            "&:hover": {
+              backgroundColor: pink[400],
+            },
           }}
         >
           {isUpdateMode ? "Update Task" : "Add Task"}
         </Button>
       </form>
 
-      {/* Todo list */}
+      {/* Pending Todo list */}
       <div>
-        <h2 className="text-center font-bold">To-do List</h2>
-        {todos.map((todo) => (
-          <ListItem
-            sx={{ mt: 3 }}
-            secondaryAction={
-              <>
-                <Button
-                  type="button"
-                  variant="contained"
-                  onClick={() => handleUpdateClick(todo)}
-                  sx={{
-                    backgroundColor: purple[300],
-                    mt: 3,
-                    ml: 70,
-                    margin: "0 auto",
-                    display: "flex",
-                    hover: purple[300],
-                  }}
-                >
-                  Update
-                </Button>
-                <Button
-                  type="button"
-                  variant="contained"
-                  onClick={async () => {
-                    const deletedTodoId = await deleteTodosFromFirestore(
-                      todo.id
-                    );
-                    if (deletedTodoId) {
-                      const updatedTodos = todos.filter(
-                        (t) => t.id !== deletedTodoId
+        <h2 className="text-center font-bold pt-20 underline">To-do List</h2>
+        {/*to pass in: todos (all), update on click action, delete on click action, checkbox on change action 
+        (add item to completed to do list when the confirm button is clicked), input props for checkbox */}
+        <table className="table">
+          {/* head */}
+          <thead>
+            <tr>
+              <th></th>
+              <th className="text-2xl">Subject</th>
+              <th className="text-2xl">Task</th>
+              <th className="text-2xl">Deadline</th>
+              <th className="text-2xl"></th>
+            </tr>
+          </thead>
+
+          {/*map each to do item to the row */}
+          {todos.map((todo) => (
+            <tbody>
+              <tr className="hover">
+                <th>
+                  <PopUp
+                    // onClickAction contains the function that adds to do list to completed to do list
+                    // after the "confirm" button is clicked on the pop up
+                    onClickAction={async () => {
+                      const addedCompletedId = await addCompletedToFirebase(
+                        todo.Subject,
+                        todo.Task,
+                        todo.Deadline
                       );
-                      setTodos(updatedTodos);
+                      const deletedTodoId = await deleteTodosFromFirestore(
+                        todo.id
+                      );
+                      if (deletedTodoId) {
+                        const updatedTodos = todos.filter(
+                          (t) => t.id !== deletedTodoId
+                        );
+                        setTodos(updatedTodos);
+                      }
+                    }}
+                    inputProps={{ "aria-label": "controlled" }}
+                  />
+                </th>
+
+                <td id="Subject">
+                  <tr className="hover">
+                    <th></th>
+                    <td>
+                      <div className="flex items-center gap-3"></div>
+                      <div>
+                        <PendingToDoTextField text={todo.Subject} />
+                      </div>
+                    </td>
+                  </tr>
+                </td>
+
+                <td id="Task">
+                  <tr className="hover">
+                    <td>
+                      <div className="flex items-center gap-3"></div>
+                      <div>
+                        <PendingToDoTextField text={todo.Task} />
+                      </div>
+                    </td>
+                  </tr>
+                </td>
+                <td id="Deadline">
+                  <tr className="hover">
+                    <th></th>
+                    <td>
+                      <div className="flex items-center gap-3"></div>
+                      <div>
+                        <PendingToDoTextField text={todo.Deadline} />
+                      </div>
+                    </td>
+                  </tr>
+                </td>
+                <td>
+                  <ListItem
+                    sx={{ pl: 12 }}
+                    secondaryAction={
+                      <>
+                        {/* // update button */}
+                        <ToDoButton
+                          text={"Update"}
+                          onClickAction={() => handleUpdateClick(todo)}
+                        />
+                        {/* delete button */}
+                        <ToDoButton
+                          text={"Delete"}
+                          onClickAction={async () => {
+                            const deletedTodoId =
+                              await deleteTodosFromFirestore(todo.id);
+                            if (deletedTodoId) {
+                              const updatedTodos = todos.filter(
+                                (t) => t.id !== deletedTodoId
+                              );
+                              setTodos(updatedTodos);
+                            }
+                          }}
+                        />
+                      </>
                     }
-                  }}
-                  sx={{
-                    backgroundColor: purple[300],
-                    mt: 3,
-                    ml: 70,
-                    margin: "0 auto",
-                    display: "flex",
-                    hover: purple[300],
-                  }}
-                >
-                  Delete
-                </Button>
-              </>
-            }
-            disablePadding
-          >
-            <ListItemIcon>
-              <Checkbox
-                edge="start"
-                tabIndex={-1}
-                disableRipple
-                checked={false}
-                onChange={async () => {
-                  const addedCompletedId = await addCompletedToFirebase(
-                    todo.Subject,
-                    todo.Task,
-                    todo.Deadline
-                  );
-                  const deletedTodoId = await deleteTodosFromFirestore(todo.id);
-                  if (deletedTodoId) {
-                    const updatedTodos = todos.filter(
-                      (t) => t.id !== deletedTodoId
-                    );
-                    setTodos(updatedTodos);
-                  }
-                }}
-                inputProps={{ "aria-label": "controlled" }}
-              />
-            </ListItemIcon>
-            <ListItemText
-              primary={todo.Subject + ": " + todo.Task}
-              secondary={todo.Deadline}
-            />
-          </ListItem>
-        ))}
+                    //disablePadding
+                  />
+                </td>
+              </tr>
+            </tbody>
+          ))}
+        </table>
       </div>
 
       {/* Completed List */}
       <div>
-        <h2 className="text-center font-bold">Completed To-dos</h2>
-        <Button
-          type="button"
-          variant="contained"
-          onClick={() => deleteCompletedFromFirestore()}
-          sx={{
-            backgroundColor: purple[300],
-            mt: 3,
-            ml: 70,
-            margin: "0 auto",
-            display: "flex",
-            hover: purple[300],
-          }}
-        >
-          Clear All
-        </Button>
-        {completeds.map((completed) => (
+        <>
+          <h2 className="text-center font-bold pt-40 underline">
+            Completed To-dos
+          </h2>
+        </>
+        <ToDoButton
+          text={"Clear All"}
+          onClickAction={() => deleteCompletedFromFirestore()}
+        />
+      </div>
+      <>
+        <CompletedToDoListTable completeds={completeds} />
+      </>
+    </div>
+  );
+}
+export default ToDoTable;
+
+// old completed to do list
+
+{
+  /* {completeds.map((completed) => (
           <ListItem sx={{ mt: 3 }}>
             <ListItemText
               primary={completed.Subject + ": " + completed.Task}
               secondary={completed.Deadline}
             />
           </ListItem>
-        ))}
-      </div>
-    </div>
-  );
+        ))} */
 }
-export default ToDoTable;
