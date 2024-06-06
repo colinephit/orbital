@@ -38,7 +38,7 @@ function SimpleDialog(props: SimpleDialogProps) {
         receive your points.
       </DialogTitle>
       <div className="flex justify-center items-center">
-        <SelectHours />
+        <SelectHours storeHours={0} />
       </div>
 
       <div className="flex justify-center items-center">
