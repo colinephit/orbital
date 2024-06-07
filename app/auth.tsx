@@ -5,6 +5,7 @@ import { cert } from "firebase-admin/app";
 import { adminAuth } from "../firebase-admin";
 
 export const authOptions: NextAuthOptions = {
+  secret: "secret",
   providers: [
     GoogleProvider({
       clientId:
@@ -48,3 +49,4 @@ export const authOptions: NextAuthOptions = {
     }),
   }),
 };
+

@@ -15,6 +15,7 @@ function CompletedToDoListTable({ completeds }) {
           <th className="text-2xl">Task</th>
           <th className="text-2xl">Deadline</th>
           <th className="text-2xl">Date of Completion</th>
+          <th className="text-2xl">Hours Spent</th>
         </tr>
       </thead>
       <tbody>
@@ -24,6 +25,7 @@ function CompletedToDoListTable({ completeds }) {
             subject={completed.Subject}
             task={completed.Task}
             deadline={completed.Deadline}
+            hours={completed.Hours}
           />
         ))}
 

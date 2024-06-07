@@ -5,7 +5,7 @@ import CompletedToDoTextField from "./CompletedToDoTextField";
 
 // arguments: subject, task, deadline, date checkbox was ticked
 
-function CompletedRow({ subject, task, deadline }) {
+function CompletedRow({ subject, task, deadline, hours }) {
   const today = new Date();
   const month = today.getMonth() + 1;
   const year = today.getFullYear();
@@ -55,6 +55,17 @@ function CompletedRow({ subject, task, deadline }) {
             <div className="flex items-center gap-3"></div>
             <div>
               <CompletedToDoTextField text={year + "-" + month + "-" + date} />
+            </div>
+          </td>
+        </tr>
+      </td>
+      <td id="Hours Spent">
+        <tr className="hover">
+          <th></th>
+          <td>
+            <div className="flex items-center gap-3"></div>
+            <div>
+              <CompletedToDoTextField text={hours} />
             </div>
           </td>
         </tr>
