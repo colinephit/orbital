@@ -87,13 +87,14 @@ async function deleteTodosFromFirestore(todoId) {
 }
 
 //function to add completed to firestore
-async function addCompletedToFirebase(Subject, Task, Deadline) {
+async function addCompletedToFirebase(Subject, Task, Deadline, Hours) {
   try {
     const docRef = await addDoc(collection(db, "completed"), {
       Subject: Subject,
       Task: Task,
       Deadline: Deadline,
       createdAt: serverTimestamp(),
+      Hours: Hours,
     });
     console.log("Completed added with ID: ", docRef.id);
     return true;
@@ -325,11 +326,12 @@ function ToDoTable() {
                   <PopUp
                     // onClickAction contains the function that adds to do list to completed to do list
                     // after the "confirm" button is clicked on the pop up
-                    onClickAction={async () => {
+                    onClickAction={ async (selectedHours) => {
                       const addedCompletedId = await addCompletedToFirebase(
                         todo.Subject,
                         todo.Task,
-                        todo.Deadline
+                        todo.Deadline,
+                        selectedHours
                       );
                       const deletedTodoId = await deleteTodosFromFirestore(
                         todo.id

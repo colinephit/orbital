@@ -16,15 +16,17 @@ export interface SimpleDialogProps {
   open: boolean;
   selectedValue: string;
   onClose: (value: string) => void;
-  onClickAction: () => void;
+  onClickAction: (hours: string) => void;
 }
 
 function SimpleDialog(props: SimpleDialogProps) {
   const { onClose, selectedValue, open, onClickAction } = props;
 
+  const [hours, setHours] = React.useState(""); 
+
   const handleClose = () => {
     onClose(selectedValue);
-    onClickAction();
+    onClickAction(hours);
   };
 
   const handleListItemClick = (value: string) => {
@@ -38,7 +40,7 @@ function SimpleDialog(props: SimpleDialogProps) {
         receive your points.
       </DialogTitle>
       <div className="flex justify-center items-center">
-        <SelectHours storeHours={0} />
+        <SelectHours hours={hours} onHoursChange={setHours} />
       </div>
 
       <div className="flex justify-center items-center">
@@ -50,6 +52,12 @@ function SimpleDialog(props: SimpleDialogProps) {
       </div>
     </Dialog>
   );
+}
+
+interface PopUpProps {
+  onClickAction: (hours: string) => void;
+  inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
+  completed: () => void;
 }
 
 export default function PopUp({ onClickAction, inputProps }) {
@@ -64,6 +72,11 @@ export default function PopUp({ onClickAction, inputProps }) {
     setOpen(false);
   };
 
+  const handleHoursSelected = (hours: string) => {
+    console.log("Selected hours:", hours);
+    onClickAction(hours);
+  }
+
   return (
     <div>
       <Typography variant="subtitle1" component="div"></Typography>
@@ -77,8 +90,9 @@ export default function PopUp({ onClickAction, inputProps }) {
         selectedValue={null}
         open={open}
         onClose={handleClose}
-        onClickAction={onClickAction}
+        onClickAction={handleHoursSelected}
       />
     </div>
   );
 }
+

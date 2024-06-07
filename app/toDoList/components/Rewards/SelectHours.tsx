@@ -9,12 +9,15 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
-export default function SelectHours({ storeHours }) {
-  const [hours, setHours] = React.useState("");
+interface SelectHoursProps {
+  hours: string;
+  onHoursChange: (hours: string) => void;
+}
+
+export default function SelectHours({ hours, onHoursChange }: SelectHoursProps) {
 
   const handleChange = (event: SelectChangeEvent) => {
-    setHours(event.target.value as string);
-    storeHours = hours;
+    onHoursChange(event.target.value as string);
   };
 
   const hourOptions = [
