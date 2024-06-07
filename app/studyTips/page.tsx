@@ -16,8 +16,6 @@ export default function StudyTips() {
     { id: 8, image_front: "/Card8_Front.png", image_back: "/Card8_Back.png" },
   ];
 
-  const [cards, setCards] = useState(flashcards);
-
   return (
     <div>
       <div className="p-4">
