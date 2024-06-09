@@ -9,8 +9,6 @@ import ToDoButton from "./ToDoButton";
 import PendingToDoTextField from "./PendingToDoListTable/PendingToDoTextField";
 import InputTextField from "./InputTextField";
 import CompletedToDoListTable from "./CompletedToDoListTable/CompletedToDoTable";
-import PendingRow from "./PendingToDoListTable/PendingRow";
-import ModifiedCheckbox from "./PendingToDoListTable/ModifiedCheckbox";
 import PopUp from "./Rewards/PopUp";
 import {
   Checkbox,
@@ -35,6 +33,7 @@ import { db } from "../../../firebase";
 import { useSession } from "next-auth/react";
 import { where } from "firebase/firestore";
 import { SessionProvider } from "next-auth/react";
+import { DatePicker } from "react-rainbow-components";
 
 //function to add todos to firestore
 async function addTodoToFirebase(Subject, Task, Deadline, Email) {
@@ -128,6 +127,48 @@ async function deleteCompletedFromFirestore() {
   });
 }
 
+//function to add emptyables to firestore
+async function addEmptyableToFirebase(Subject, Task, Deadline, Hours) {
+  try {
+    const docRef = await addDoc(collection(db, "emptyable"), {
+      Subject: Subject,
+      Task: Task,
+      Deadline: Deadline,
+      createdAt: serverTimestamp(),
+      Hours: Hours,
+    });
+    console.log("Emptyable added with ID: ", docRef.id);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+//function to fetch emptyable from firestore
+async function fetchEmptyableFromFirestore() {
+  const emptyableCollection = collection(db, "emptyable");
+  const querySnapshot = await getDocs(
+    query(emptyableCollection, orderBy("createdAt", "desc"))
+  );
+  const emptyables = [];
+  querySnapshot.forEach((doc) => {
+    const completedData = doc.data();
+    emptyables.push({ id: doc.id, ...completedData });
+  });
+  return emptyables;
+}
+
+//delete all emptyables
+async function deleteEmptyableFromFirestore() {
+  const completedsCollection = collection(db, "emptyable");
+  const querySnapshot = await getDocs(query(completedsCollection));
+  const completeds = [];
+  querySnapshot.forEach((item) => {
+    const ID = item.id;
+    deleteDoc(doc(db, "emptyable", ID));
+  });
+}
+
 function ToDoTable() {
   const [Subject, setSubject] = useState("");
   const [Task, setTask] = useState("");
@@ -139,6 +180,9 @@ function ToDoTable() {
 
   //state to hold the list of completed
   const [completeds, setCompleted] = useState([]);
+
+  //state to hold the list of emptyables
+  const [emptyables, setEmptyable] = useState([]);
 
   //state to hold the selected todo for update
   const [selectedTodo, setSelectedTodo] = useState(null);
@@ -207,6 +251,15 @@ function ToDoTable() {
       setCompleted(completed);
     }
     fetchCompleted();
+  }, []);
+  
+  //fetch emptyable from firestore on component mount
+  useEffect(() => {
+    async function fetchEmptyable() {
+      const emptyable = await fetchEmptyableFromFirestore();
+      setEmptyable(emptyable);
+    }
+    fetchEmptyable();
   }, []);
 
   //function to handle "update button click"
@@ -333,6 +386,12 @@ function ToDoTable() {
                         todo.Deadline,
                         selectedHours
                       );
+                      const addedEmptyableId = await addEmptyableToFirebase(
+                        todo.Subject,
+                        todo.Task,
+                        todo.Deadline,
+                        selectedHours
+                      );
                       const deletedTodoId = await deleteTodosFromFirestore(
                         todo.id
                       );
@@ -375,7 +434,7 @@ function ToDoTable() {
                     <td>
                       <div className="flex items-center gap-3"></div>
                       <div>
-                        <PendingToDoTextField text={todo.Deadline} />
+                        <PendingToDoTextField text={`${new Date(Date.parse(todo.Deadline)).getDate()}/${new Date(Date.parse(todo.Deadline)).getMonth() + 1}/${new Date(Date.parse(todo.Deadline)).getFullYear()}`} />
                       </div>
                     </td>
                   </tr>
@@ -424,26 +483,13 @@ function ToDoTable() {
         </>
         <ToDoButton
           text={"Clear All"}
-          onClickAction={() => deleteCompletedFromFirestore()}
+          onClickAction={() => deleteEmptyableFromFirestore()}
         />
       </div>
       <>
-        <CompletedToDoListTable completeds={completeds} />
+        <CompletedToDoListTable emptyables={emptyables} />
       </>
     </div>
   );
 }
 export default ToDoTable;
-
-// old completed to do list
-
-{
-  /* {completeds.map((completed) => (
-          <ListItem sx={{ mt: 3 }}>
-            <ListItemText
-              primary={completed.Subject + ": " + completed.Task}
-              secondary={completed.Deadline}
-            />
-          </ListItem>
-        ))} */
-}

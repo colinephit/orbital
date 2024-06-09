@@ -5,7 +5,7 @@ import CompletedToDoTextField from "./CompletedToDoTextField";
 
 // arguments: subject, task, deadline, date checkbox was ticked
 
-function CompletedRow({ subject, task, deadline, hours }) {
+function CompletedRow({ subject, task, deadline, completionDate, hours }) {
   const today = new Date();
   const month = today.getMonth() + 1;
   const year = today.getFullYear();
@@ -43,7 +43,7 @@ function CompletedRow({ subject, task, deadline, hours }) {
           <td>
             <div className="flex items-center gap-3"></div>
             <div>
-              <CompletedToDoTextField text={deadline} />
+              <CompletedToDoTextField text={`${new Date(Date.parse(deadline)).getDate()}/${new Date(Date.parse(deadline)).getMonth() + 1}/${new Date(Date.parse(deadline)).getFullYear()}`} />
             </div>
           </td>
         </tr>
@@ -54,7 +54,7 @@ function CompletedRow({ subject, task, deadline, hours }) {
           <td>
             <div className="flex items-center gap-3"></div>
             <div>
-              <CompletedToDoTextField text={year + "-" + month + "-" + date} />
+              <CompletedToDoTextField text={completionDate} />
             </div>
           </td>
         </tr>

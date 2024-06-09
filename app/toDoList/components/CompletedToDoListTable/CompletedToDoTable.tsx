@@ -3,8 +3,20 @@
 
 import React from "react";
 import CompletedRow from "./CompletedRow";
+import moment from "moment";
 
-function CompletedToDoListTable({ completeds }) {
+function convertTimestamp (timestamp) {
+		//extract the seconds and nanos values from your Firestore timestamp object
+		const { seconds, nanos } = timestamp;
+    console.log("seconds: ", seconds, "nanos: ", nanos)
+		//combine the seconds and nanos values into a single timestamp in milliseconds
+		const milliseconds = seconds * 1000 + nanos / 1e6;
+		//use Moment.js to convert the timestamp to a date
+		return moment(milliseconds).toDate();
+}
+
+
+function CompletedToDoListTable({ emptyables }) {
   return (
     <table className="table">
       {/* head */}
@@ -20,16 +32,15 @@ function CompletedToDoListTable({ completeds }) {
       </thead>
       <tbody>
         {/* map all the rows here */}
-        {completeds.map((completed) => (
+        {emptyables.map((completed) => (
           <CompletedRow
             subject={completed.Subject}
             task={completed.Task}
             deadline={completed.Deadline}
+            completionDate={`${completed.createdAt.toDate().getDate()}/${completed.createdAt.toDate().getMonth() + 1}/${completed.createdAt.toDate().getFullYear()}`}
             hours={completed.Hours}
           />
         ))}
-
-        {/* <CompletedRow text={"hi"} deadline={13 / 4 / 2023} /> */}
       </tbody>
     </table>
   );
