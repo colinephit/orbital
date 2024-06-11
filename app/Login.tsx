@@ -3,6 +3,8 @@
 import React from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import  Points  from "./toDoList/components/Rewards/Points"
+import TotalHours from "./toDoList/components/Rewards/Points";
 
 const LogIn = () => {
   const { data: session } = useSession();
@@ -33,7 +35,11 @@ const LogIn = () => {
             className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
           >
             <li>
-              <a className="justify-between">{session.user.name}</a>
+              <div className="justify-between">{session.user.name} <br /> <TotalHours /> points</div>
+            </li>
+
+            <li>
+              <a className="justify-between">My Pups</a>
             </li>
 
             <li>

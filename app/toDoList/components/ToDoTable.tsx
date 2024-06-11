@@ -28,10 +28,10 @@ import {
   deleteDoc,
   doc,
   updateDoc,
+  where,
 } from "@firebase/firestore";
 import { db } from "../../../firebase";
 import { useSession } from "next-auth/react";
-import { where } from "firebase/firestore";
 import { SessionProvider } from "next-auth/react";
 import { DatePicker } from "react-rainbow-components";
 
@@ -56,7 +56,6 @@ async function addTodoToFirebase(Subject, Task, Deadline, Email) {
 
 //function to fetch todos from firestore
 async function fetchTodosFromFirestore(Email) {
-  console.log(Email);
   const todosCollection = collection(db, "todos");
   const querySnapshot = await getDocs(
     query(
@@ -86,16 +85,16 @@ async function deleteTodosFromFirestore(todoId) {
 }
 
 //function to add completed to firestore
-async function addCompletedToFirebase(Subject, Task, Deadline, Hours) {
+async function addCompletedToFirebase(Subject, Task, Deadline, Hours, Email) {
   try {
     const docRef = await addDoc(collection(db, "completed"), {
       Subject: Subject,
       Task: Task,
       Deadline: Deadline,
       createdAt: serverTimestamp(),
+      Email: Email,
       Hours: Hours,
     });
-    console.log("Completed added with ID: ", docRef.id);
     return true;
   } catch (error) {
     return false;
@@ -103,10 +102,12 @@ async function addCompletedToFirebase(Subject, Task, Deadline, Hours) {
 }
 
 //function to fetch completed from firestore
-async function fetchCompletedFromFirestore() {
+async function fetchCompletedFromFirestore(Email) {
   const completedCollection = collection(db, "completed");
   const querySnapshot = await getDocs(
-    query(completedCollection, orderBy("createdAt", "desc"))
+    query(completedCollection, 
+          where("Email", "==", Email), 
+          orderBy("createdAt", "desc"))
   );
   const completed = [];
   querySnapshot.forEach((doc) => {
@@ -128,16 +129,16 @@ async function deleteCompletedFromFirestore() {
 }
 
 //function to add emptyables to firestore
-async function addEmptyableToFirebase(Subject, Task, Deadline, Hours) {
+async function addEmptyableToFirebase(Subject, Task, Deadline, Hours, Email) {
   try {
     const docRef = await addDoc(collection(db, "emptyable"), {
       Subject: Subject,
       Task: Task,
       Deadline: Deadline,
       createdAt: serverTimestamp(),
+      Email: Email,
       Hours: Hours,
     });
-    console.log("Emptyable added with ID: ", docRef.id);
     return true;
   } catch (error) {
     return false;
@@ -145,10 +146,12 @@ async function addEmptyableToFirebase(Subject, Task, Deadline, Hours) {
 }
 
 //function to fetch emptyable from firestore
-async function fetchEmptyableFromFirestore() {
+async function fetchEmptyableFromFirestore(Email) {
   const emptyableCollection = collection(db, "emptyable");
   const querySnapshot = await getDocs(
-    query(emptyableCollection, orderBy("createdAt", "desc"))
+    query(emptyableCollection, 
+      where("Email", "==", Email), 
+      orderBy("createdAt", "desc"))
   );
   const emptyables = [];
   querySnapshot.forEach((doc) => {
@@ -211,7 +214,9 @@ function ToDoTable() {
           setSelectedTodo(null);
           setIsUpdateMode(false);
 
-          alert("Todo updates successfully!");
+          alert("Todo updated successfully!");
+          await fetchAndUpdateTodos();
+          location.reload();
         } catch (error) {
           console.error("Error updating todo: ", error);
         }
@@ -229,38 +234,61 @@ function ToDoTable() {
         setDeadline("");
 
         alert("Todo added to firestore successfully!");
+        await fetchAndUpdateTodos();
+        location.reload();
       }
     }
   };
 
+  // Function to fetch todos and update state
+  const fetchAndUpdateTodos = async () => {
+    if (currentUser?.data?.user?.email) {
+      const todos = await fetchTodosFromFirestore(currentUser.data.user.email);
+      setTodos(todos);
+    }
+  };
+
+    // Function to fetch emptyables and update state
+    const fetchAndUpdateEmptyables = async () => {
+      if (currentUser?.data?.user?.email) {
+        const emptyables = await fetchEmptyableFromFirestore(currentUser.data.user.email);
+        setEmptyable(emptyables);
+        location.reload();
+      }
+    };
+
   //fetch todos from firestore on component mount
   useEffect(() => {
     async function fetchTodos() {
-      const todos = await fetchTodosFromFirestore(
-        currentUser?.data?.user?.email
-      );
-      setTodos(todos);
+      if (currentUser?.data?.user?.email) {
+        const todos = await fetchTodosFromFirestore(currentUser.data.user.email);
+        setTodos(todos);
+      }
     }
     fetchTodos();
-  }, []);
+  }, [currentUser]);
 
   //fetch completed from firestore on component mount
   useEffect(() => {
     async function fetchCompleted() {
-      const completed = await fetchCompletedFromFirestore();
-      setCompleted(completed);
+      if (currentUser?.data?.user?.email) {
+        const completed = await fetchCompletedFromFirestore(currentUser.data.user.email);
+        setCompleted(completed);
+      }
     }
     fetchCompleted();
-  }, []);
+  }, [currentUser]);
   
   //fetch emptyable from firestore on component mount
   useEffect(() => {
     async function fetchEmptyable() {
-      const emptyable = await fetchEmptyableFromFirestore();
-      setEmptyable(emptyable);
+      if (currentUser?.data?.user?.email) {
+        const emptyable = await fetchEmptyableFromFirestore(currentUser.data.user.email);
+        setEmptyable(emptyable);
+      }
     }
     fetchEmptyable();
-  }, []);
+  }, [currentUser]);
 
   //function to handle "update button click"
   const handleUpdateClick = (todo) => {
@@ -384,23 +412,28 @@ function ToDoTable() {
                         todo.Subject,
                         todo.Task,
                         todo.Deadline,
-                        selectedHours
+                        selectedHours,
+                        currentUser?.data?.user?.email
+
                       );
                       const addedEmptyableId = await addEmptyableToFirebase(
                         todo.Subject,
                         todo.Task,
                         todo.Deadline,
-                        selectedHours
+                        selectedHours,
+                        currentUser?.data?.user?.email
                       );
                       const deletedTodoId = await deleteTodosFromFirestore(
                         todo.id
                       );
+                      
                       if (deletedTodoId) {
                         const updatedTodos = todos.filter(
                           (t) => t.id !== deletedTodoId
                         );
                         setTodos(updatedTodos);
                       }
+                      location.reload();
                     }}
                     inputProps={{ "aria-label": "controlled" }}
                   />
@@ -447,7 +480,7 @@ function ToDoTable() {
                         {/* // update button */}
                         <ToDoButton
                           text={"Update"}
-                          onClickAction={() => handleUpdateClick(todo)}
+                          onClickAction={async () => {handleUpdateClick(todo)}}
                         />
                         {/* delete button */}
                         <ToDoButton
@@ -483,7 +516,9 @@ function ToDoTable() {
         </>
         <ToDoButton
           text={"Clear All"}
-          onClickAction={() => deleteEmptyableFromFirestore()}
+          onClickAction={async () => {
+            await deleteEmptyableFromFirestore();
+            await fetchAndUpdateEmptyables()}}
         />
       </div>
       <>
