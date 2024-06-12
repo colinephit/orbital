@@ -10,9 +10,9 @@ async function syncFirebaseAuth(session: Session) {
   if (session && session.firebaseToken)  {
     try {
       await signInWithCustomToken(auth, session.firebaseToken)
-      console.log("success signing in")
+      //console.log("success signing in")
     } catch (error) {
-      console.error("Error signing in with custom token: ", error)
+      //console.error("Error signing in with custom token: ", error)
     }
   } else {
     auth.signOut()
@@ -27,7 +27,7 @@ function FirebaseAuthProvider({
     const {data: session} = useSession();
     useEffect(() => {
       if (!session) return;
-      console.log("attempting to sync firebase")
+      //console.log("attempting to sync firebase")
       syncFirebaseAuth(session);
     }, [session])
   return <>{children}</>

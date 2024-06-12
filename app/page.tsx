@@ -3,9 +3,11 @@ import "bootstrap/dist/css/bootstrap.css";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./auth";
 import ProgressBar from "./ProgressBar";
+import HappinessLevel from "./HappinessLevel";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
+  console.log(session.user.email)
   if (session == null) {
     return (
       <>
@@ -19,9 +21,9 @@ export default async function Home() {
   return (
     <div>
       <h1>Placeholder for pup animation</h1>
-      <div className="text-3xl">Happiness Level: {40} %</div>{" "}
+      <div className="text-3xl">Happiness Level: {<HappinessLevel />} %</div>{" "}
       {/* add user's pups happiness level in the brackets*/}
-      <ProgressBar happinessLevel={40} />
+      <ProgressBar happinessLevel={<HappinessLevel />} />
     </div>
   );
 }
