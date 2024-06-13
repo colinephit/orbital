@@ -40,7 +40,9 @@ function StatsBar({ happinessLevel }) {
           </svg>
         </div>
         <div className="stat-title">Number of Points</div>
-        <div className="stat-value text-secondary">2.6M</div>
+        <div className="stat-value text-secondary">
+          insert points component here
+        </div>
       </div>
     </div>
   );
