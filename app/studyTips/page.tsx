@@ -22,7 +22,7 @@ export default function StudyTips() {
         <Header title="Productivity Tips" />
       </div>
 
-      <div className="p-5">
+      <div className="p-5 flex justify-center items-center">
         <TipsCarousel flashcards={flashcards} />
       </div>
     </div>
