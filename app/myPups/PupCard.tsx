@@ -4,7 +4,7 @@ import React from "react";
 
 function PupCard({ pupImage, pupName, description }) {
   return (
-    <div className="card card-compact w-96 bg-base-100 shadow-xl">
+    <div className="card card-compact w-96 bg-base-100 shadow-xl hover:transform-gpu hover:scale-110 transition-all">
       <figure>
         <img src={pupImage} alt="Pup" />
       </figure>
