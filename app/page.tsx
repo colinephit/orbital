@@ -23,11 +23,10 @@ export default async function Home() {
 
   return (
     <div>
-      <h1>Placeholder for pup animation</h1>
+      <PupMoods />
       <div className="text-3xl">Happiness Level: {happiness} %</div>{" "}
       {/* add user's pups happiness level in the brackets*/}
       <HappinessLevel />
-      <PupMoods />
     </div>
   );
 }
