@@ -2,8 +2,15 @@
 import "bootstrap/dist/css/bootstrap.css";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { collection, getDocs, query, where } from "@firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  updateDoc,
+} from "@firebase/firestore";
 import { db } from "../../../../firebase";
+import { addDoc, doc, setDoc } from "firebase/firestore";
 
 async function sumHoursFromCompleted(email) {
   const completedCollection = collection(db, "completed");
@@ -18,7 +25,36 @@ async function sumHoursFromCompleted(email) {
     }
   });
 
+  const pts = totalHours * 100;
+  updateUserPoints(email, pts);
+
   return totalHours;
+}
+
+async function updateUserPoints(email, points) {
+  const pointsCollection = collection(db, "points");
+  const q = query(pointsCollection, where("Email", "==", email));
+
+  const querySnapshot = await getDocs(q);
+
+  if (!querySnapshot.empty) {
+    // If user exists, update points
+    querySnapshot.forEach(async (doc) => {
+      const docRef = doc.ref;
+      await updateDoc(docRef, {
+        Points: points,
+      });
+      //console.log("Points updated for:", email);
+    });
+  } else {
+    // If user does not exist, create a new document
+    const newDocRef = doc(pointsCollection);
+    await setDoc(newDocRef, {
+      Email: email,
+      Points: 0,
+    });
+    // console.log("New user added with email:", email);
+  }
 }
 
 function TotalHours() {
