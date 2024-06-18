@@ -5,6 +5,7 @@ import { authOptions } from "./auth";
 import ProgressBar from "./ProgressBar";
 import HappinessLevel from "./HappinessLevel";
 import { calculateHappinessLevel } from "./HappinessCalculator";
+import PupMoods from "./PupMoods";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -26,6 +27,7 @@ export default async function Home() {
       <div className="text-3xl">Happiness Level: {happiness} %</div>{" "}
       {/* add user's pups happiness level in the brackets*/}
       <HappinessLevel />
+      <PupMoods />
     </div>
   );
 }

@@ -3,7 +3,6 @@
 import React from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Points from "./toDoList/components/Rewards/Points";
 import TotalHours from "./toDoList/components/Rewards/Points";
 import Link from "next/link";
 

@@ -6,9 +6,27 @@ import LockedPupCard from "./LockedPupCard";
 import { collection, getDocs, query, where } from "@firebase/firestore";
 import { db } from "../../firebase";
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
-async function getPupsDatabase() {
-  const pupsCollection = collection(db, "pups"); // collection of pups in firebase
+async function getUserPoints(email) {
+  const pointsCollection = collection(db, "points");
+  const q = query(pointsCollection, where("Email", "==", email));
+  const querySnapshot = await getDocs(q);
+
+  let userPoints = 0;
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    userPoints = data.Points;
+  });
+
+  console.log("user points: ", userPoints);
+  return userPoints;
+}
+
+async function getPupsDatabase(email) {
+  const userPoints = await getUserPoints(email);
+
+  const pupsCollection = collection(db, "pups");
   const q = query(pupsCollection);
   const querySnapshot = await getDocs(q);
 
@@ -16,7 +34,7 @@ async function getPupsDatabase() {
 
   querySnapshot.forEach((doc) => {
     const data = doc.data();
-    if (data.Unlocked) {
+    if (userPoints >= data.Points) {
       unlockedPups.push(data);
     }
   });
@@ -25,18 +43,21 @@ async function getPupsDatabase() {
 
 function Page() {
   const [unlockedPups, setUnlockPups] = useState([]);
+  const { data: session, status } = useSession();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const pups = await getPupsDatabase();
-        setUnlockPups(pups);
-      } catch (e) {
-        console.error("Error fetching data: " + e);
-      }
-    };
-    fetchData();
-  }, []);
+    if (status === "authenticated") {
+      const fetchData = async () => {
+        try {
+          const pups = await getPupsDatabase(session.user.email);
+          setUnlockPups(pups);
+        } catch (e) {
+          console.error("Error fetching data: " + e);
+        }
+      };
+      fetchData();
+    }
+  }, [status, session]);
 
   return (
     <div>
@@ -47,7 +68,7 @@ function Page() {
         {unlockedPups.map((pup) => (
           <PupCard
             key={pup.id}
-            pupImage={""}
+            pupImage={pup.Location}
             pupName={pup.Name}
             description={pup.Description}
           />

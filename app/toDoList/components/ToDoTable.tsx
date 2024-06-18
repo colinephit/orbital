@@ -105,9 +105,11 @@ async function addCompletedToFirebase(Subject, Task, Deadline, Hours, Email) {
 async function fetchCompletedFromFirestore(Email) {
   const completedCollection = collection(db, "completed");
   const querySnapshot = await getDocs(
-    query(completedCollection, 
-          where("Email", "==", Email), 
-          orderBy("createdAt", "desc"))
+    query(
+      completedCollection,
+      where("Email", "==", Email),
+      orderBy("createdAt", "desc")
+    )
   );
   const completed = [];
   querySnapshot.forEach((doc) => {
@@ -149,9 +151,11 @@ async function addEmptyableToFirebase(Subject, Task, Deadline, Hours, Email) {
 async function fetchEmptyableFromFirestore(Email) {
   const emptyableCollection = collection(db, "emptyable");
   const querySnapshot = await getDocs(
-    query(emptyableCollection, 
-      where("Email", "==", Email), 
-      orderBy("createdAt", "desc"))
+    query(
+      emptyableCollection,
+      where("Email", "==", Email),
+      orderBy("createdAt", "desc")
+    )
   );
   const emptyables = [];
   querySnapshot.forEach((doc) => {
@@ -214,7 +218,6 @@ function ToDoTable() {
           setSelectedTodo(null);
           setIsUpdateMode(false);
 
-          alert("Todo updated successfully!");
           await fetchAndUpdateTodos();
           location.reload();
         } catch (error) {
@@ -233,7 +236,6 @@ function ToDoTable() {
         setTask("");
         setDeadline("");
 
-        alert("Todo added to firestore successfully!");
         await fetchAndUpdateTodos();
         location.reload();
       }
@@ -248,20 +250,24 @@ function ToDoTable() {
     }
   };
 
-    // Function to fetch emptyables and update state
-    const fetchAndUpdateEmptyables = async () => {
-      if (currentUser?.data?.user?.email) {
-        const emptyables = await fetchEmptyableFromFirestore(currentUser.data.user.email);
-        setEmptyable(emptyables);
-        location.reload();
-      }
-    };
+  // Function to fetch emptyables and update state
+  const fetchAndUpdateEmptyables = async () => {
+    if (currentUser?.data?.user?.email) {
+      const emptyables = await fetchEmptyableFromFirestore(
+        currentUser.data.user.email
+      );
+      setEmptyable(emptyables);
+      location.reload();
+    }
+  };
 
   //fetch todos from firestore on component mount
   useEffect(() => {
     async function fetchTodos() {
       if (currentUser?.data?.user?.email) {
-        const todos = await fetchTodosFromFirestore(currentUser.data.user.email);
+        const todos = await fetchTodosFromFirestore(
+          currentUser.data.user.email
+        );
         setTodos(todos);
       }
     }
@@ -272,18 +278,22 @@ function ToDoTable() {
   useEffect(() => {
     async function fetchCompleted() {
       if (currentUser?.data?.user?.email) {
-        const completed = await fetchCompletedFromFirestore(currentUser.data.user.email);
+        const completed = await fetchCompletedFromFirestore(
+          currentUser.data.user.email
+        );
         setCompleted(completed);
       }
     }
     fetchCompleted();
   }, [currentUser]);
-  
+
   //fetch emptyable from firestore on component mount
   useEffect(() => {
     async function fetchEmptyable() {
       if (currentUser?.data?.user?.email) {
-        const emptyable = await fetchEmptyableFromFirestore(currentUser.data.user.email);
+        const emptyable = await fetchEmptyableFromFirestore(
+          currentUser.data.user.email
+        );
         setEmptyable(emptyable);
       }
     }
@@ -407,14 +417,13 @@ function ToDoTable() {
                   <PopUp
                     // onClickAction contains the function that adds to do list to completed to do list
                     // after the "confirm" button is clicked on the pop up
-                    onClickAction={ async (selectedHours) => {
+                    onClickAction={async (selectedHours) => {
                       const addedCompletedId = await addCompletedToFirebase(
                         todo.Subject,
                         todo.Task,
                         todo.Deadline,
                         selectedHours,
                         currentUser?.data?.user?.email
-
                       );
                       const addedEmptyableId = await addEmptyableToFirebase(
                         todo.Subject,
@@ -426,7 +435,7 @@ function ToDoTable() {
                       const deletedTodoId = await deleteTodosFromFirestore(
                         todo.id
                       );
-                      
+
                       if (deletedTodoId) {
                         const updatedTodos = todos.filter(
                           (t) => t.id !== deletedTodoId
@@ -467,7 +476,15 @@ function ToDoTable() {
                     <td>
                       <div className="flex items-center gap-3"></div>
                       <div>
-                        <PendingToDoTextField text={`${new Date(Date.parse(todo.Deadline)).getDate()}/${new Date(Date.parse(todo.Deadline)).getMonth() + 1}/${new Date(Date.parse(todo.Deadline)).getFullYear()}`} />
+                        <PendingToDoTextField
+                          text={`${new Date(
+                            Date.parse(todo.Deadline)
+                          ).getDate()}/${
+                            new Date(Date.parse(todo.Deadline)).getMonth() + 1
+                          }/${new Date(
+                            Date.parse(todo.Deadline)
+                          ).getFullYear()}`}
+                        />
                       </div>
                     </td>
                   </tr>
@@ -480,7 +497,9 @@ function ToDoTable() {
                         {/* // update button */}
                         <ToDoButton
                           text={"Update"}
-                          onClickAction={async () => {handleUpdateClick(todo)}}
+                          onClickAction={async () => {
+                            handleUpdateClick(todo);
+                          }}
                         />
                         {/* delete button */}
                         <ToDoButton
@@ -518,7 +537,8 @@ function ToDoTable() {
           text={"Clear All"}
           onClickAction={async () => {
             await deleteEmptyableFromFirestore();
-            await fetchAndUpdateEmptyables()}}
+            await fetchAndUpdateEmptyables();
+          }}
         />
       </div>
       <>
