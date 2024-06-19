@@ -47,6 +47,12 @@ const LogIn = () => {
             </li>
 
             <li>
+              <Link href="/communityPage" className="justify-between">
+                My Friends
+              </Link>
+            </li>
+
+            <li>
               <button onClick={() => signOut()}>Logout</button>
             </li>
           </ul>
