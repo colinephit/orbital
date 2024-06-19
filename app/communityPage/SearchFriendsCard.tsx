@@ -1,4 +1,3 @@
-// potential friends appear here when users are searching for friends to add
 import React from "react";
 import Card from "@mui/material/Card";
 import Avatar from "@mui/material/Avatar";
@@ -7,7 +6,8 @@ import { amber, pink } from "@mui/material/colors";
 import { Button } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 
-// friend has already been added as a friend of current user
+// friend has not yet added as a friend of current user
+// potential friends appear here when users are searching for friends to add
 // this should take in an argument being the friend {friend} along with its data stored in the database
 // take in one argument, {friend}
 
