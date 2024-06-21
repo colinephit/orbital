@@ -8,18 +8,46 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import AddFriends from "./AddFriends";
 import SearchFriendsCard from "./SearchFriendsCard";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { db } from "../../firebase";
 
 // the Add Friends Button that causes the search pop up upon click
 
 function SearchFriendsPopUp() {
   const [open, setOpen] = React.useState(false);
+  const [user, setUser] = React.useState(null);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
+    location.reload();
     setOpen(false);
+  };
+
+  const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formJson = Object.fromEntries((formData as any).entries());
+    const email = formJson.email;
+
+    try {
+      const usersCollection = collection(db, "users");
+      const q = query(usersCollection, where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        const userDoc = querySnapshot.docs[0];
+        setUser(userDoc.data());
+      } else {
+        setUser(null);
+        console.log("No user found with that email");
+      }
+    } catch (error) {
+      console.error("Error fetching user data: ", error);
+      setUser(null);
+    }
   };
 
   return (
@@ -31,14 +59,7 @@ function SearchFriendsPopUp() {
           onClose={handleClose}
           PaperProps={{
             component: "form",
-            onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
-              event.preventDefault();
-              const formData = new FormData(event.currentTarget);
-              const formJson = Object.fromEntries((formData as any).entries());
-              const email = formJson.email;
-              console.log(email);
-              handleClose();
-            },
+            onSubmit: handleSearch,
           }}
           maxWidth="sm"
           fullWidth
@@ -49,8 +70,7 @@ function SearchFriendsPopUp() {
           <DialogTitle style={{ fontSize: "25px" }}>Find Friends</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Description on how to add friends, eg search their username or
-              email
+              Enter your friend's email
               {/*note: i just left the email address here in case its easier but if not can just use text field*/}
             </DialogContentText>
             <TextField
@@ -67,11 +87,15 @@ function SearchFriendsPopUp() {
           </DialogContent>
           {/*each possible friend will show up in each of these cards*/}
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <SearchFriendsCard />
+            {user ? (
+              <SearchFriendsCard friend={user} />
+            ) : (
+              <div>No user found</div>
+            )}
           </div>
 
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleClose}>Close</Button>
 
             {/*<Button type="submit">Add</Button>*/}
           </DialogActions>
