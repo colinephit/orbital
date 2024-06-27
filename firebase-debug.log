@@ -1,0 +1,29 @@
+[debug] [2024-06-27T15:43:45.340Z] ----------------------------------------------------------------------
+[debug] [2024-06-27T15:43:45.344Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\user\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start
+[debug] [2024-06-27T15:43:45.345Z] CLI Version:   13.12.0
+[debug] [2024-06-27T15:43:45.345Z] Platform:      win32
+[debug] [2024-06-27T15:43:45.345Z] Node Version:  v20.13.1
+[debug] [2024-06-27T15:43:45.345Z] Time:          Thu Jun 27 2024 23:43:45 GMT+0800 (Singapore Standard Time)
+[debug] [2024-06-27T15:43:45.345Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-06-27T15:43:45.464Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-06-27T15:43:45.465Z] > authorizing via signed-in user (tingxuandaddy@gmail.com)
+[info] i  emulators: Starting emulators: auth, functions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, functions"}}
+[debug] [2024-06-27T15:43:45.475Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2024-06-27T15:43:45.475Z] [auth] Authentication Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[warn] !  ui: Emulator UI unable to start on port 4000, starting on 4002 instead. {"metadata":{"emulator":{"name":"ui"},"message":"Emulator UI unable to start on port 4000, starting on 4002 instead."}}
+[debug] [2024-06-27T15:43:45.477Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4002},{"address":"::1","family":"IPv6","port":4002}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[warn] !  emulators: It seems that you are running multiple instances of the emulator suite for project orbital-59b97. This may result in unexpected behavior. 
+[debug] [2024-06-27T15:43:45.483Z] [hub] writing locator at C:\Users\user\AppData\Local\Temp\hub-orbital-59b97.json
+[debug] [2024-06-27T15:43:45.501Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2024-06-27T15:43:45.501Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2024-06-27T15:43:45.501Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4002},{"address":"::1","family":"IPv6","port":4002}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[warn] !  functions: The following emulators are not running, calls to these services from the Functions emulator will affect production: firestore, database, hosting, pubsub, storage, dataconnect {"metadata":{"emulator":{"name":"functions"},"message":"The following emulators are not running, calls to these services from the Functions emulator will affect production: \u001b[1mfirestore, database, hosting, pubsub, storage, dataconnect\u001b[22m"}}
+[debug] [2024-06-27T15:43:45.504Z] defaultcredentials: writing to file C:\Users\user\AppData\Roaming\firebase\tingxuandaddy_gmail_com_application_default_credentials.json
+[debug] [2024-06-27T15:43:45.507Z] Setting GAC to C:\Users\user\AppData\Roaming\firebase\tingxuandaddy_gmail_com_application_default_credentials.json {"metadata":{"emulator":{"name":"functions"},"message":"Setting GAC to C:\\Users\\user\\AppData\\Roaming\\firebase\\tingxuandaddy_gmail_com_application_default_credentials.json"}}
+[debug] [2024-06-27T15:43:45.508Z] > refreshing access token with scopes: []
+[debug] [2024-06-27T15:43:45.510Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2024-06-27T15:43:45.510Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-06-27T15:43:45.595Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2024-06-27T15:43:45.595Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-06-27T15:43:45.603Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/orbital-59b97/adminSdkConfig [none]
