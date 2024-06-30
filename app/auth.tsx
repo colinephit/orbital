@@ -9,8 +9,13 @@ export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId:
-        "726678658112-o9pa2299vsi75vnpa2ga0dejgjj7govg.apps.googleusercontent.com",
+        "726678658112-h4fi66g6s611i7eookoeb3l3k8ame6cq.apps.googleusercontent.com",
       clientSecret: "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",
+    }),
+    GoogleProvider({
+      clientId:
+        "726678658112-h4fi66g6s611i7eookoeb3l3k8ame6cq.apps.googleusercontent.com",
+      clientSecret: "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",
     }),
   ],
   callbacks: {
@@ -49,4 +54,3 @@ export const authOptions: NextAuthOptions = {
     }),
   }),
 };
-
