@@ -47,7 +47,7 @@ function NavigationBar() {
         </li>
         <li>
           <Link href="/studyTips">
-            Productivity Tips
+            Productivity Page
             <span className="badge badge-xs badge-info"></span>
           </Link>
         </li>
