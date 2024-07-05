@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import Header from "../Header";
 import TipsCarousel from "./TipsCarousel";
+import PomodoroTimer from "./PomodoroTimer";
 
 export default function StudyTips() {
   const flashcards = [
@@ -19,7 +20,10 @@ export default function StudyTips() {
   return (
     <div>
       <div className="p-4">
-        <Header title="Productivity Tips" />
+        <Header title="Productivity Page" />
+      </div>
+      <div className="flex justify-center">
+        <PomodoroTimer />
       </div>
 
       <div className="p-5 flex justify-center items-center">
