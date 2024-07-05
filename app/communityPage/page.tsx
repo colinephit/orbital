@@ -1,5 +1,6 @@
 "use client";
 import FriendsCard from "./FriendsCard";
+import FriendRequests from "./FriendRequests";
 import AddFriends from "./AddFriends";
 import SearchFriendsPopUp from "./SearchFriendsPopUp";
 import { Search } from "@mui/icons-material";
@@ -22,8 +23,23 @@ async function getFriendsDatabase(email) {
   return friends;
 }
 
+async function getFriendRequests(email) {
+  const requestsCollection = collection(db, "friends");
+  const q = query(requestsCollection, where("Email", "==", email));
+  const querySnapshot = await getDocs(q);
+
+  let requests = [];
+
+  querySnapshot.forEach((doc) => {
+    requests = doc.data().Requests || [];
+  });
+
+  return requests;
+}
+
 function Page() {
   const [friends, setFriends] = useState([]);
+  const [requests, setRequests] = useState([]);
   const { data: session, status } = useSession();
 
   useEffect(() => {
@@ -40,6 +56,18 @@ function Page() {
     }
   }, [status, session]);
 
+  useEffect(() => {
+    const fetchRequests = async () => {
+      try {
+        const requestsArray = await getFriendRequests(session.user.email);
+        setRequests(requestsArray);
+      } catch (e) {
+        console.error("Error fetching friend requests: " + e);
+      }
+    };
+    fetchRequests();
+  }, [session]);
+
   if (friends.length == 0) {
     return (
       <div>
@@ -51,12 +79,26 @@ function Page() {
 
   return (
     <div>
-      <h1>My Friends</h1>
-      <SearchFriendsPopUp />
-      <div style={{ marginTop: "30px" }}>
-        {friends.map((friend) => (
-          <FriendsCard friend={friend} />
-        ))}
+      <div>
+        <SearchFriendsPopUp />
+      </div>
+      <div style={{ display: "flex", textAlign: "center" }}>
+        <div style={{ flex: 1 }}>
+          <h1 className="">My Friends</h1>
+          <div style={{ marginTop: "30px" }}>
+            {friends.map((friend, index) => (
+              <FriendsCard key={index} friend={friend} />
+            ))}
+          </div>
+        </div>
+        <div style={{ flex: 1 }}>
+          <h1>Friend Requests</h1>
+          <div style={{ marginTop: "30px" }}>
+            {requests.map((request, index) => (
+              <FriendRequests key={index} request={request} />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

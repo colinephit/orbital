@@ -48,7 +48,9 @@ export default function PupMoods() {
     fetchUserPoints();
   }, [session]);
 
-  const dogIndex = Math.floor(userPoints / 3600);
+  console.log(userPoints);
+  const dogIndex = Math.floor(userPoints / 3600) + 1;
+  console.log(dogIndex);
   let imgSrc = `/Dog${dogIndex}_Sad.gif`;
 
   if (happinessLevel > 70) {
