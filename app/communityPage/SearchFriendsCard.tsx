@@ -24,13 +24,42 @@ import { db } from "../../firebase";
 // take in one argument, {friend}
 
 async function sendFriendRequest(user, friend) {
+  if (user == friend) {
+    alert("You can't befriend yourself...!");
+    return;
+  }
+
   const friendsCollection = collection(db, "friends");
   const q = query(friendsCollection, where("Email", "==", friend));
+
+  const quser = query(friendsCollection, where("Email", "==", user));
+  const userSnapshot = await getDocs(quser);
+
+  let alreadyFriends = false;
+
+  if (!userSnapshot.empty) {
+    userSnapshot.forEach((doc) => {
+      const userData = doc.data();
+      if (userData.Friends && userData.Friends.includes(friend)) {
+        alreadyFriends = true;
+      }
+    });
+  }
+
+  if (alreadyFriends) {
+    alert("You are already friends with that user :D");
+    return;
+  }
 
   const querySnapshot = await getDocs(q);
 
   if (!querySnapshot.empty) {
     querySnapshot.forEach(async (doc) => {
+      const friendData = doc.data();
+      if (friendData.Requests && friendData.Requests.includes(user)) {
+        alert("You have already sent a request to that user :D");
+        return;
+      }
       const docRef = doc.ref;
       await updateDoc(docRef, {
         Requests: arrayUnion(user),

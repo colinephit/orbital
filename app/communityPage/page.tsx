@@ -73,6 +73,12 @@ function Page() {
       <div>
         <h1>You have no friends :,D</h1>
         <SearchFriendsPopUp />
+        <h1>Friend Requests</h1>
+        <div style={{ marginTop: "30px" }}>
+          {requests.map((request, index) => (
+            <FriendRequests key={index} request={request} />
+          ))}
+        </div>
       </div>
     );
   }
