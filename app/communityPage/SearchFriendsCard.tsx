@@ -23,26 +23,24 @@ import { db } from "../../firebase";
 // this should take in an argument being the friend {friend} along with its data stored in the database
 // take in one argument, {friend}
 
-async function addFriend(user, friend) {
+async function sendFriendRequest(user, friend) {
   const friendsCollection = collection(db, "friends");
-  const q = query(friendsCollection, where("Email", "==", user));
+  const q = query(friendsCollection, where("Email", "==", friend));
 
   const querySnapshot = await getDocs(q);
 
   if (!querySnapshot.empty) {
-    // If user exists, update friend
     querySnapshot.forEach(async (doc) => {
       const docRef = doc.ref;
       await updateDoc(docRef, {
-        Friends: arrayUnion(friend),
+        Requests: arrayUnion(user),
       });
     });
   } else {
-    // If user does not exist, create a new document
     const newDocRef = doc(friendsCollection);
     await setDoc(newDocRef, {
       Email: user,
-      Friends: [friend],
+      Requests: [user],
     });
   }
 }
@@ -96,8 +94,7 @@ function SearchFriendsCard({ friend }) {
           <Button
             variant="contained"
             onClick={async (e) => {
-              console.log(friend.email, currentUser.data.user.email);
-              const addedFriend = await addFriend(
+              const requestFriend = await sendFriendRequest(
                 currentUser.data.user.email,
                 friend.email
               );
@@ -110,7 +107,7 @@ function SearchFriendsCard({ friend }) {
               outline: pink[300],
             }}
           >
-            Add
+            Send request
           </Button>
         </div>
       </div>

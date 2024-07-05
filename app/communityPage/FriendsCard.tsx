@@ -47,6 +47,9 @@ function FriendsCard({ friend }) {
   const [points, setPoints] = useState(0);
   const [info, setInfo] = useState({});
 
+  const dogIndex = Math.floor(points / 3600) + 1;
+  let imgSrc = `/Dog${dogIndex}_Neutral.gif`;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -132,7 +135,7 @@ function FriendsCard({ friend }) {
         </div>
         <div>
           <img
-            src={"/Dog1_Neutral.gif"}
+            src={imgSrc}
             alt=""
             width="150"
             height="130"
