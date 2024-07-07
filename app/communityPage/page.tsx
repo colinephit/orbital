@@ -2,8 +2,12 @@
 import FriendsCard from "./FriendsCard";
 import FriendRequests from "./FriendRequests";
 import AddFriends from "./AddFriends";
+import Alert from "@mui/material/Alert";
+import InfoIcon from "@mui/icons-material/Info";
+
 import SearchFriendsPopUp from "./SearchFriendsPopUp";
-import { Search } from "@mui/icons-material";
+import Leaderboard from "./Leaderboard";
+import { Info, Search } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { collection, getDocs, query, where } from "firebase/firestore";
@@ -88,22 +92,51 @@ function Page() {
       <div>
         <SearchFriendsPopUp />
       </div>
-      <div style={{ display: "flex", textAlign: "center" }}>
-        <div style={{ flex: 1 }}>
-          <h1 className="">My Friends</h1>
-          <div style={{ marginTop: "30px" }}>
-            {friends.map((friend, index) => (
-              <FriendsCard key={index} friend={friend} />
-            ))}
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <div
+          style={{
+            display: "flex",
+            textAlign: "center",
+            flexDirection: "column",
+          }}
+        >
+          <div style={{ flex: 1, paddingBottom: "30px", marginTop: "60px" }}>
+            <h1>Friend Requests</h1>
+            <div style={{ paddingTop: "20px" }}>
+              {" "}
+              {requests.length === 0 && (
+                <Alert sx={{ fontSize: "17px" }} severity="success">
+                  You have no pending friend requests
+                </Alert>
+              )}
+            </div>
+
+            <div style={{ paddingTop: "20px" }}>
+              {requests.length != 0 && (
+                <Alert
+                  severity="warning"
+                  sx={{ fontSize: "17px" }}
+                  icon={<InfoIcon />}
+                >
+                  You have {requests.length} pending friend requests.
+                </Alert>
+              )}
+              {requests.map((request, index) => (
+                <FriendRequests key={index} request={request} />
+              ))}
+            </div>
+          </div>
+          <div style={{ flex: 1 }}>
+            <h1 className="">My Friends</h1>
+            <div style={{ marginTop: "30px" }}>
+              {friends.map((friend, index) => (
+                <FriendsCard key={index} friend={friend} />
+              ))}
+            </div>
           </div>
         </div>
-        <div style={{ flex: 1 }}>
-          <h1>Friend Requests</h1>
-          <div style={{ marginTop: "30px" }}>
-            {requests.map((request, index) => (
-              <FriendRequests key={index} request={request} />
-            ))}
-          </div>
+        <div style={{ marginLeft: "500px", marginTop: "60px" }}>
+          <Leaderboard />
         </div>
       </div>
     </div>

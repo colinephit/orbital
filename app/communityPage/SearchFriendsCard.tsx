@@ -4,6 +4,8 @@ import Avatar from "@mui/material/Avatar";
 import PersonIcon from "@mui/icons-material/Person";
 import { amber, pink } from "@mui/material/colors";
 import { Button } from "@mui/material";
+import Alert from "@mui/material/Alert";
+import { useState } from "react";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { useSession } from "next-auth/react";
 import {
@@ -76,71 +78,75 @@ async function sendFriendRequest(user, friend) {
 
 function SearchFriendsCard({ friend }) {
   const currentUser = useSession();
+
   return (
-    <Card
-      sx={{
-        borderRadius: "10px",
-        display: "flex",
-        alignItems: "center",
-        marginTop: "10px",
-        width: 500,
-        height: 180,
-        backgroundColor: amber[50],
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center", paddingLeft: 20 }}>
-        <Avatar
-          src={friend.image}
-          sx={{
-            width: 80,
-            height: 80,
-            marginTop: "10px",
-            marginBottom: "10px",
-            marginLeft: "10px",
-            borderRadius: "50%",
-          }}
-        ></Avatar>
-        <div>
+    <div>
+      <Card
+        sx={{
+          borderRadius: "10px",
+          display: "flex",
+          alignItems: "center",
+          marginTop: "10px",
+          width: 500,
+          height: 180,
+          backgroundColor: amber[50],
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", paddingLeft: 20 }}>
+          <Avatar
+            src={friend.image}
+            sx={{
+              width: 80,
+              height: 80,
+              marginTop: "10px",
+              marginBottom: "10px",
+              marginLeft: "10px",
+              borderRadius: "50%",
+            }}
+          ></Avatar>
+          <div>
+            <div
+              style={{
+                alignItems: "left",
+                justifyContent: "left",
+                display: "flex",
+                marginLeft: "40px",
+                marginBottom: "1px",
+                fontSize: "30px",
+                fontFamily: "Segoe UI",
+              }}
+            >
+              {friend.name}
+            </div>
+          </div>
           <div
             style={{
-              alignItems: "left",
-              justifyContent: "left",
-              display: "flex",
-              marginLeft: "40px",
-              marginBottom: "1px",
-              fontSize: "30px",
-              fontFamily: "Segoe UI",
+              marginLeft: "35px",
+              paddingRight: "20px",
             }}
           >
-            {friend.name}
+            <Button
+              variant="contained"
+              onClick={async (e) => {
+                const requestFriend = await sendFriendRequest(
+                  currentUser.data.user.email,
+                  friend.email
+                );
+              }}
+              sx={{
+                "&:hover": {
+                  backgroundColor: pink[300],
+                },
+                backgroundColor: pink[200],
+                outline: pink[300],
+              }}
+            >
+              Send request
+            </Button>
           </div>
         </div>
-        <div
-          style={{
-            marginLeft: "35px",
-          }}
-        >
-          <Button
-            variant="contained"
-            onClick={async (e) => {
-              const requestFriend = await sendFriendRequest(
-                currentUser.data.user.email,
-                friend.email
-              );
-            }}
-            sx={{
-              "&:hover": {
-                backgroundColor: pink[300],
-              },
-              backgroundColor: pink[200],
-              outline: pink[300],
-            }}
-          >
-            Send request
-          </Button>
-        </div>
-      </div>
-    </Card>
+      </Card>
+    </div>
   );
 }
 

@@ -196,7 +196,7 @@ function FriendRequests({ request }) {
               outline: pink[300],
             }}
           >
-            Add
+            Accept
           </Button>
         </div>
       </div>
