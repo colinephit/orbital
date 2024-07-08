@@ -5,6 +5,8 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import TotalHours from "./toDoList/components/Rewards/Points";
 import Link from "next/link";
+import Button from "@mui/material/Button";
+import { pink, lightGreen } from "@mui/material/colors";
 
 const LogIn = () => {
   const { data: session } = useSession();
@@ -12,6 +14,11 @@ const LogIn = () => {
 
   const handleLogin = async () => {
     signIn(undefined, { callbackUrl: "/" });
+  };
+
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: "/" });
+    router.push("/");
   };
 
   if (session && session.user) {
@@ -53,7 +60,7 @@ const LogIn = () => {
             </li>
 
             <li>
-              <button onClick={() => signOut()}>Logout</button>
+              <button onClick={handleLogout}>Logout</button>
             </li>
           </ul>
         </div>
@@ -62,7 +69,19 @@ const LogIn = () => {
   }
   return (
     <div>
-      <button onClick={handleLogin}>Login</button>
+      <Button
+        variant="contained"
+        onClick={handleLogin}
+        sx={{
+          backgroundColor: "#82b1ff",
+          "&:hover": {
+            backgroundColor: "#8c9eff",
+          },
+          marginBottom: "15px",
+        }}
+      >
+        Login
+      </Button>
     </div>
   );
 };
