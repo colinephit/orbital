@@ -8,6 +8,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import AddFriends from "./AddFriends";
 import SearchFriendsCard from "./SearchFriendsCard";
+import Alert from "@mui/material/Alert";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 
@@ -90,7 +91,7 @@ function SearchFriendsPopUp() {
             {user ? (
               <SearchFriendsCard friend={user} />
             ) : (
-              <div>No user found</div>
+              <Alert severity="error">No user found</Alert>
             )}
           </div>
 

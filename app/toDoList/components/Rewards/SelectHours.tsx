@@ -14,8 +14,10 @@ interface SelectHoursProps {
   onHoursChange: (hours: string) => void;
 }
 
-export default function SelectHours({ hours, onHoursChange }: SelectHoursProps) {
-
+export default function SelectHours({
+  hours,
+  onHoursChange,
+}: SelectHoursProps) {
   const handleChange = (event: SelectChangeEvent) => {
     onHoursChange(event.target.value as string);
   };
@@ -52,7 +54,7 @@ export default function SelectHours({ hours, onHoursChange }: SelectHoursProps) 
       <FormControl required sx={{ width: "100%" }}>
         <InputLabel id="demo-simple-select-label">Hours</InputLabel>
         <Select
-          labelId="demo-simple-select-required-label"
+          labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={hours}
           label="Hours"
