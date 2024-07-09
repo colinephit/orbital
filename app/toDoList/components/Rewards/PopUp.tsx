@@ -11,6 +11,8 @@ import Typography from "@mui/material/Typography";
 import { blue, pink } from "@mui/material/colors";
 import SelectHours from "./SelectHours";
 import PopUpCheckbox from "./PopUpCheckbox";
+import Alert from "@mui/material/Alert";
+import { useState } from "react";
 
 export interface SimpleDialogProps {
   open: boolean;
@@ -22,15 +24,23 @@ export interface SimpleDialogProps {
 function SimpleDialog(props: SimpleDialogProps) {
   const { onClose, selectedValue, open, onClickAction } = props;
 
-  const [hours, setHours] = React.useState(""); 
+  const [hours, setHours] = useState("");
+  const [error, setError] = useState(false); // error handling: if user did not select number of hours
 
   const handleClose = () => {
-    onClose(selectedValue);
-    onClickAction(hours);
+    if (hours !== "") {
+      onClickAction(hours);
+      onClose("confirm");
+    } else {
+      setError(true); // want to show error if hours have not been input by user
+    }
+    // onClose(selectedValue);
+    // onClickAction(hours);
   };
 
-  const handleListItemClick = (value: string) => {
-    onClose(value);
+  const handleHoursChange = (selectedHours: string) => {
+    setHours(selectedHours);
+    setError(false); // clear error when hours are selected
   };
 
   return (
@@ -40,7 +50,15 @@ function SimpleDialog(props: SimpleDialogProps) {
         receive your points.
       </DialogTitle>
       <div className="flex justify-center items-center">
-        <SelectHours hours={hours} onHoursChange={setHours} />
+        <SelectHours hours={hours} onHoursChange={handleHoursChange} />
+      </div>
+
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        {error && (
+          <Alert sx={{ width: "280px", marginTop: "20px" }} severity="error">
+            Please select number of hours.
+          </Alert>
+        )}
       </div>
 
       <div className="flex justify-center items-center">
@@ -75,7 +93,7 @@ export default function PopUp({ onClickAction, inputProps }) {
   const handleHoursSelected = (hours: string) => {
     console.log("Selected hours:", hours);
     onClickAction(hours);
-  }
+  };
 
   return (
     <div>
@@ -95,4 +113,3 @@ export default function PopUp({ onClickAction, inputProps }) {
     </div>
   );
 }
-
