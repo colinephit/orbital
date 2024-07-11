@@ -43,7 +43,11 @@ function CompletedRow({ subject, task, deadline, completionDate, hours }) {
           <td>
             <div className="flex items-center gap-3"></div>
             <div>
-              <CompletedToDoTextField text={`${new Date(Date.parse(deadline)).getDate()}/${new Date(Date.parse(deadline)).getMonth() + 1}/${new Date(Date.parse(deadline)).getFullYear()}`} />
+              <CompletedToDoTextField
+                text={`${new Date(Date.parse(deadline)).getDate()}/${
+                  new Date(Date.parse(deadline)).getMonth() + 1
+                }/${new Date(Date.parse(deadline)).getFullYear()}`}
+              />
             </div>
           </td>
         </tr>
