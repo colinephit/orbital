@@ -12,26 +12,47 @@ import {
 import { db } from "../../../../firebase";
 import { addDoc, doc, setDoc } from "firebase/firestore";
 
+function startOfWeek(date) {
+  // Calculate the difference between the date's day of the month and its day of the week
+  var diff = date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1);
+
+  // Set the date to the start of the week by setting it to the calculated difference
+  return new Date(date.setDate(diff));
+}
+
 async function sumHoursFromCompleted(email) {
   const completedCollection = collection(db, "completed");
   const q = query(completedCollection, where("Email", "==", email));
   const querySnapshot = await getDocs(q);
 
   let totalHours = 0;
+  let weeklyHours = 0;
+  const startoftheweek = startOfWeek(new Date());
+  const nextWeek = new Date(
+    startoftheweek.getFullYear(),
+    startoftheweek.getMonth(),
+    startoftheweek.getDate() + 7
+  );
+
   querySnapshot.forEach((doc) => {
     const data = doc.data();
+    console.log(data.createdAt.toDate() > startoftheweek);
     if (data.Hours) {
       totalHours += parseFloat(data.Hours) || 0;
+      if (data.createdAt.toDate() > startoftheweek) {
+        weeklyHours += parseFloat(data.Hours) || 0;
+      }
     }
   });
 
   const pts = totalHours * 100;
-  updateUserPoints(email, pts);
+  const weeklypts = weeklyHours * 100;
+  updateUserPoints(email, pts, weeklypts);
 
   return totalHours;
 }
 
-async function updateUserPoints(email, points) {
+async function updateUserPoints(email, points, weeklypoints) {
   const pointsCollection = collection(db, "points");
   const q = query(pointsCollection, where("Email", "==", email));
 
@@ -43,15 +64,16 @@ async function updateUserPoints(email, points) {
       const docRef = doc.ref;
       await updateDoc(docRef, {
         Points: points,
+        WeeklyPoints: weeklypoints,
       });
-      //console.log("Points updated for:", email);
     });
   } else {
     // If user does not exist, create a new document
     const newDocRef = doc(pointsCollection);
     await setDoc(newDocRef, {
       Email: email,
-      Points: 0,
+      Points: points,
+      WeeklyPoints: weeklypoints,
     });
     // console.log("New user added with email:", email);
   }
