@@ -199,6 +199,15 @@ function ToDoTable() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const selectedDate = new Date(Deadline);
+    const currentDate = new Date();
+
+    if (selectedDate < currentDate) {
+      alert("Deadline cannot be set before the current date");
+      return;
+    }
+
     if (isUpdateMode) {
       if (selectedTodo) {
         try {

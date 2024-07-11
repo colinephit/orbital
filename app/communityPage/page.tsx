@@ -96,6 +96,7 @@ function Page() {
         <div
           style={{
             display: "flex",
+            width: "50%",
             textAlign: "center",
             flexDirection: "column",
           }}
@@ -105,7 +106,10 @@ function Page() {
             <div style={{ paddingTop: "20px" }}>
               {" "}
               {requests.length === 0 && (
-                <Alert sx={{ fontSize: "17px" }} severity="success">
+                <Alert
+                  sx={{ fontSize: "17px", width: "40%", marginLeft: "30%" }}
+                  severity="success"
+                >
                   You have no pending friend requests
                 </Alert>
               )}
@@ -115,7 +119,7 @@ function Page() {
               {requests.length != 0 && (
                 <Alert
                   severity="warning"
-                  sx={{ fontSize: "17px" }}
+                  sx={{ fontSize: "17px", width: "40%", marginLeft: "30%" }}
                   icon={<InfoIcon />}
                 >
                   You have {requests.length} pending friend requests.
@@ -128,14 +132,20 @@ function Page() {
           </div>
           <div style={{ flex: 1 }}>
             <h1 className="">My Friends</h1>
-            <div style={{ marginTop: "30px" }}>
+            <div style={{ marginTop: "30px", marginLeft: "20%" }}>
               {friends.map((friend, index) => (
                 <FriendsCard key={index} friend={friend} />
               ))}
             </div>
           </div>
         </div>
-        <div style={{ marginLeft: "500px", marginTop: "60px" }}>
+        <div
+          style={{
+            width: "50%",
+
+            marginTop: "60px",
+          }}
+        >
           <Leaderboard />
         </div>
       </div>

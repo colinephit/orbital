@@ -137,7 +137,7 @@ function SearchFriendsCard({ friend }) {
                 "&:hover": {
                   backgroundColor: pink[300],
                 },
-                backgroundColor: pink[200],
+                backgroundColor: pink[300],
                 outline: pink[300],
               }}
             >

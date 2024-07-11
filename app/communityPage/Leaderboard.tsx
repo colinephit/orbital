@@ -10,6 +10,9 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import Button from "@mui/material/Button";
+import DateRangeIcon from "@mui/icons-material/DateRange";
+import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
 
 async function getFriendsDatabase(email) {
   const friendsCollection = collection(db, "friends");
@@ -127,10 +130,9 @@ function Leaderboard() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        width: "100%",
       }}
     >
-      <div style={{ width: "800px", alignItems: "center" }}>
+      <div style={{ alignItems: "center", width: "100%", maxWidth: "800px" }}>
         <h1 style={{ textAlign: "center" }}>Leaderboard</h1>
 
         <div
@@ -138,30 +140,44 @@ function Leaderboard() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            width: "100%",
             marginBottom: "20px",
           }}
         >
-          <button
-            style={{ padding: "10px", marginRight: "10px" }}
+          <Button
+            variant="outlined"
+            style={{
+              padding: "10px",
+              marginTop: "30px",
+              marginRight: "30px",
+              width: "150px",
+              fontSize: "16px",
+            }}
             onClick={() => setLeaderboardType("weekly")}
+            endIcon={<DateRangeIcon />}
           >
             Weekly
-          </button>
-          <button
-            style={{ padding: "10px" }}
+          </Button>
+          <Button
+            variant="outlined"
+            style={{
+              padding: "10px",
+              width: "150px",
+              marginTop: "30px",
+              fontSize: "16px",
+            }}
             onClick={() => setLeaderboardType("allTime")}
+            endIcon={<EmojiEventsRoundedIcon />}
           >
             All time
-          </button>
+          </Button>
         </div>
 
         <TableContainer
           component={Paper}
           sx={{
-            width: "800px",
             marginTop: "50px",
-            display: "flex",
+            width: "100%",
+            alignItems: "center",
           }}
         >
           <Table sx={{ width: "800px" }} aria-label="simple table">
@@ -172,6 +188,7 @@ function Leaderboard() {
                     fontSize: "17px",
                     fontWeight: "bold",
                     borderRight: "1px solid #bdbdbd",
+                    width: "100px",
                   }}
                 >
                   Ranking
@@ -196,8 +213,8 @@ function Leaderboard() {
                 >
                   Points{" "}
                   {leaderboardType === "weekly"
-                    ? "earned this week"
-                    : "earned all time"}
+                    ? "Earned This Week"
+                    : "Earned All Time"}
                 </TableCell>
                 {/*
                 <TableCell sx={{ fontSize: "17px", fontWeight: "bold" }}>

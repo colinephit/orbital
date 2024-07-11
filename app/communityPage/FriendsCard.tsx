@@ -87,7 +87,7 @@ function FriendsCard({ friend }) {
         display: "flex",
         alignItems: "center",
         marginTop: "10px",
-        width: 580,
+        width: "75%",
         height: 200,
         backgroundColor: amber[50],
       }}
