@@ -61,7 +61,7 @@ async function fetchTodosFromFirestore(Email) {
     query(
       todosCollection,
       where("Email", "==", Email),
-      orderBy("Deadline", "desc")
+      orderBy("Deadline", "asc")
     )
   );
   const todos = [];
@@ -117,17 +117,6 @@ async function fetchCompletedFromFirestore(Email) {
     completed.push({ id: doc.id, ...completedData });
   });
   return completed;
-}
-
-//delete all completed
-async function deleteCompletedFromFirestore() {
-  const completedsCollection = collection(db, "completed");
-  const querySnapshot = await getDocs(query(completedsCollection));
-  const completeds = [];
-  querySnapshot.forEach((item) => {
-    const ID = item.id;
-    deleteDoc(doc(db, "completed", ID));
-  });
 }
 
 //function to add emptyables to firestore
@@ -191,11 +180,10 @@ function ToDoTable() {
   //state to hold the list of emptyables
   const [emptyables, setEmptyable] = useState([]);
 
-  //state to hold the selected todo for update
-  const [selectedTodo, setSelectedTodo] = useState(null);
-
-  //state to track whether the form is in update mode
-  const [isUpdateMode, setIsUpdateMode] = useState(false);
+  const [editTodoId, setEditTodoId] = useState(null);
+  const [editSubject, setEditSubject] = useState("");
+  const [editTask, setEditTask] = useState("");
+  const [editDeadline, setEditDeadline] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -208,46 +196,18 @@ function ToDoTable() {
       return;
     }
 
-    if (isUpdateMode) {
-      if (selectedTodo) {
-        try {
-          const updatedTodo = {
-            Subject,
-            Task,
-            Deadline,
-          };
+    const added = await addTodoToFirebase(
+      Subject,
+      Task,
+      Deadline,
+      currentUser?.data?.user?.email
+    );
+    if (added) {
+      setSubject("");
+      setTask("");
+      setDeadline("");
 
-          const todoRef = doc(db, "todos", selectedTodo.id);
-          await updateDoc(todoRef, updatedTodo);
-
-          //reset form fields
-          setSubject("");
-          setTask("");
-          setDeadline("");
-          setSelectedTodo(null);
-          setIsUpdateMode(false);
-
-          await fetchAndUpdateTodos();
-          location.reload();
-        } catch (error) {
-          console.error("Error updating todo: ", error);
-        }
-      }
-    } else {
-      const added = await addTodoToFirebase(
-        Subject,
-        Task,
-        Deadline,
-        currentUser?.data?.user?.email
-      );
-      if (added) {
-        setSubject("");
-        setTask("");
-        setDeadline("");
-
-        await fetchAndUpdateTodos();
-        location.reload();
-      }
+      await fetchAndUpdateTodos();
     }
   };
 
@@ -266,7 +226,6 @@ function ToDoTable() {
         currentUser.data.user.email
       );
       setEmptyable(emptyables);
-      location.reload();
     }
   };
 
@@ -311,13 +270,22 @@ function ToDoTable() {
 
   //function to handle "update button click"
   const handleUpdateClick = (todo) => {
-    //set the selected todo's value to the form fields
-    setSubject(todo.Subject || "");
-    setTask(todo.Task || "");
-    setDeadline(todo.Deadline || "");
+    setEditTodoId(todo.id);
+    setEditSubject(todo.Subject);
+    setEditTask(todo.Task);
+    setEditDeadline(todo.Deadline);
+  };
 
-    setSelectedTodo(todo);
-    setIsUpdateMode(true);
+  const handleSaveClick = async (todoId) => {
+    const updatedTodo = {
+      Subject: editSubject,
+      Task: editTask,
+      Deadline: editDeadline,
+    };
+    const todoRef = doc(db, "todos", todoId);
+    await updateDoc(todoRef, updatedTodo);
+    setEditTodoId(null);
+    await fetchAndUpdateTodos();
   };
 
   if (!currentUser || !currentUser.data || !currentUser.data.user) {
@@ -397,7 +365,7 @@ function ToDoTable() {
             },
           }}
         >
-          {isUpdateMode ? "Update Task" : "Add Task"}
+          {"Add Task"}
         </Button>
       </form>
 
@@ -458,42 +426,62 @@ function ToDoTable() {
                 </th>
 
                 <td id="Subject">
-                  <tr className="hover">
+                  <tr className="border-none">
                     <th></th>
                     <td>
                       <div className="flex items-center gap-3"></div>
-                      <div>
-                        <PendingToDoTextField text={todo.Subject} />
+                      <div className="cursor-default">
+                        {editTodoId === todo.id ? (
+                          <TextField
+                            value={editSubject}
+                            onChange={(e) => setEditSubject(e.target.value)}
+                          />
+                        ) : (
+                          <Typography>{todo.Subject}</Typography>
+                        )}
                       </div>
                     </td>
                   </tr>
                 </td>
 
                 <td id="Task">
-                  <tr className="hover">
+                  <tr className="border-none">
                     <td>
                       <div className="flex items-center gap-3"></div>
-                      <div>
-                        <PendingToDoTextField text={todo.Task} />
+                      <div className="cursor-default">
+                        {editTodoId === todo.id ? (
+                          <TextField
+                            value={editTask}
+                            onChange={(e) => setEditTask(e.target.value)}
+                          />
+                        ) : (
+                          <Typography>{todo.Task}</Typography>
+                        )}
                       </div>
                     </td>
                   </tr>
                 </td>
                 <td id="Deadline">
-                  <tr className="hover">
+                  <tr className="border-none">
                     <th></th>
                     <td>
                       <div className="flex items-center gap-3"></div>
-                      <div>
-                        <PendingToDoTextField
-                          text={`${new Date(
+                      <div className="cursor-default">
+                        {editTodoId === todo.id ? (
+                          <TextField
+                            type="date"
+                            value={editDeadline}
+                            onChange={(e) => setEditDeadline(e.target.value)}
+                          />
+                        ) : (
+                          <Typography>{`${new Date(
                             Date.parse(todo.Deadline)
                           ).getDate()}/${
                             new Date(Date.parse(todo.Deadline)).getMonth() + 1
                           }/${new Date(
                             Date.parse(todo.Deadline)
-                          ).getFullYear()}`}
-                        />
+                          ).getFullYear()}`}</Typography>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -503,13 +491,22 @@ function ToDoTable() {
                     sx={{ pl: 12 }}
                     secondaryAction={
                       <>
-                        {/* // update button */}
-                        <ToDoButton
-                          text={"Update"}
-                          onClickAction={async () => {
-                            handleUpdateClick(todo);
-                          }}
-                        />
+                        {editTodoId === todo.id ? (
+                          <ToDoButton
+                            text={"Save"}
+                            onClickAction={async () => {
+                              handleSaveClick(todo.id);
+                            }}
+                          />
+                        ) : (
+                          <ToDoButton
+                            text={"Update"}
+                            onClickAction={async () => {
+                              handleUpdateClick(todo);
+                            }}
+                          />
+                        )}
+
                         {/* delete button */}
                         <ToDoButton
                           text={"Delete"}

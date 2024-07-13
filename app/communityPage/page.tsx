@@ -131,8 +131,8 @@ function Page() {
             </div>
           </div>
           <div style={{ flex: 1 }}>
-            <h1 className="">My Friends</h1>
-            <div style={{ marginTop: "30px", marginLeft: "20%" }}>
+            <h1 className="text-center">My Friends</h1>
+            <div style={{ marginTop: "30px", marginLeft: "0%" }}>
               {friends.map((friend, index) => (
                 <FriendsCard key={index} friend={friend} />
               ))}

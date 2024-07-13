@@ -11,11 +11,11 @@ function CompletedToDoListTable({ emptyables }) {
       <thead>
         <tr>
           <th></th>
-          <th className="text-2xl">Subject</th>
-          <th className="text-2xl">Task</th>
-          <th className="text-2xl">Deadline</th>
-          <th className="text-2xl">Date of Completion</th>
-          <th className="text-2xl">Hours Spent</th>
+          <th className="text-2xl cursor-default">Subject</th>
+          <th className="text-2xl cursor-default">Task</th>
+          <th className="text-2xl cursor-default">Deadline</th>
+          <th className="text-2xl cursor-default">Date of Completion</th>
+          <th className="text-2xl cursor-default">Hours Spent</th>
         </tr>
       </thead>
       <tbody>
