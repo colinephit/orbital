@@ -1,5 +1,3 @@
-// each additional row to be added into the completed to do list table
-
 import React from "react";
 import CompletedToDoTextField from "./CompletedToDoTextField";
 
@@ -11,15 +9,13 @@ function CompletedRow({ subject, task, deadline, completionDate, hours }) {
   const year = today.getFullYear();
   const date = today.getDate();
   return (
-    <tr className="hover">
+    <tr>
       <th></th>
 
       <td id="Subject">
-        <tr className="hover">
-          <th></th>
+        <tr className="border-none">
           <td>
-            <div className="flex items-center gap-3"></div>
-            <div>
+            <div className="flex items-center gap-3 cursor-default">
               <CompletedToDoTextField text={subject} />
             </div>
           </td>
@@ -27,22 +23,19 @@ function CompletedRow({ subject, task, deadline, completionDate, hours }) {
       </td>
 
       <td id="Task">
-        <tr className="hover">
-          <th></th>
+        <tr className="border-none">
           <td>
-            <div className="flex items-center gap-3"></div>
-            <div>
+            <div className="flex items-center gap-3 cursor-default">
               <CompletedToDoTextField text={task} />
             </div>
           </td>
         </tr>
       </td>
+
       <td id="Deadline">
-        <tr className="hover">
-          <th></th>
+        <tr className="border-none">
           <td>
-            <div className="flex items-center gap-3"></div>
-            <div>
+            <div className="flex items-center gap-3 cursor-default">
               <CompletedToDoTextField
                 text={`${new Date(Date.parse(deadline)).getDate()}/${
                   new Date(Date.parse(deadline)).getMonth() + 1
@@ -52,23 +45,21 @@ function CompletedRow({ subject, task, deadline, completionDate, hours }) {
           </td>
         </tr>
       </td>
+
       <td id="Date of Completion">
-        <tr className="hover">
-          <th></th>
+        <tr className="border-none">
           <td>
-            <div className="flex items-center gap-3"></div>
-            <div>
+            <div className="flex items-center gap-3 cursor-default">
               <CompletedToDoTextField text={completionDate} />
             </div>
           </td>
         </tr>
       </td>
+
       <td id="Hours Spent">
-        <tr className="hover">
-          <th></th>
+        <tr className="border-none">
           <td>
-            <div className="flex items-center gap-3"></div>
-            <div>
+            <div className="flex items-center gap-3 cursor-default">
               <CompletedToDoTextField text={hours} />
             </div>
           </td>

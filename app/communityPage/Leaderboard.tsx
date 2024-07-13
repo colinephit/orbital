@@ -132,7 +132,7 @@ function Leaderboard() {
         alignItems: "center",
       }}
     >
-      <div style={{ alignItems: "center", width: "100%", maxWidth: "800px" }}>
+      <div style={{ alignItems: "center", width: "100%", maxWidth: "500px" }}>
         <h1 style={{ textAlign: "center" }}>Leaderboard</h1>
 
         <div
@@ -180,7 +180,7 @@ function Leaderboard() {
             alignItems: "center",
           }}
         >
-          <Table sx={{ width: "800px" }} aria-label="simple table">
+          <Table sx={{ width: "500px" }} aria-label="simple table">
             <TableHead sx={{ backgroundColor: "#ECF2D5" }}>
               <TableRow>
                 <TableCell

@@ -36,7 +36,6 @@ async function sumHoursFromCompleted(email) {
 
   querySnapshot.forEach((doc) => {
     const data = doc.data();
-    console.log(data.createdAt.toDate() > startoftheweek);
     if (data.Hours) {
       totalHours += parseFloat(data.Hours) || 0;
       if (data.createdAt.toDate() > startoftheweek) {
@@ -75,7 +74,6 @@ async function updateUserPoints(email, points, weeklypoints) {
       Points: points,
       WeeklyPoints: weeklypoints,
     });
-    // console.log("New user added with email:", email);
   }
 }
 

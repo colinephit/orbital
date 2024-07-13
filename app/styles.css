@@ -32,3 +32,11 @@ body {
 .tab:hover {
   background-color: bisque;
 }
+
+.cursor-default {
+  cursor: default;
+}
+
+tr {
+  border: none;
+}
