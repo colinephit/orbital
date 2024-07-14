@@ -1,16 +1,45 @@
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { FirestoreAdapter } from "@next-auth/firebase-adapter";
 import { cert } from "firebase-admin/app";
 import { adminAuth } from "../firebase-admin";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
 
 export const authOptions: NextAuthOptions = {
+  pages: {
+    signIn: "/signin",
+  },
   secret: "secret",
   providers: [
     GoogleProvider({
       clientId:
         "726678658112-o9pa2299vsi75vnpa2ga0dejgjj7govg.apps.googleusercontent.com",
       clientSecret: "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",
+    }),
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {},
+      async authorize(credentials): Promise<any> {
+        return await signInWithEmailAndPassword(
+          auth,
+          (credentials as any).email || "",
+          (credentials as any).password || ""
+        )
+          .then((userCredential) => {
+            if (userCredential.user) {
+              return userCredential.user;
+            }
+            return null;
+          })
+          .catch((error) => console.log(error))
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(error);
+          });
+      },
     }),
   ],
   callbacks: {

@@ -18,7 +18,6 @@ async function getUserPoints(email) {
     userPoints = data.Points;
   });
 
-  console.log("user points: ", userPoints);
   return userPoints;
 }
 
@@ -48,9 +47,7 @@ export default function PupMoods() {
     fetchUserPoints();
   }, [session]);
 
-  console.log(userPoints);
   const dogIndex = Math.floor(userPoints / 3600) + 1;
-  console.log(dogIndex);
   let imgSrc = `/Dog${dogIndex}_Sad.gif`;
 
   if (happinessLevel > 70) {
