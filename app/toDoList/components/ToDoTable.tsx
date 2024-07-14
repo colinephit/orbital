@@ -294,8 +294,6 @@ function ToDoTable() {
 
   return (
     <div className="overflow-x-auto">
-      <h1>Hello, {currentUser.data.user.name} </h1>
-
       {/*table for users to add a new task*/}
       <h2 className="text-center font-bold pt-10 underline">
         Add a new task here

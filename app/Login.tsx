@@ -1,19 +1,62 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import TotalHours from "./toDoList/components/Rewards/Points";
 import Link from "next/link";
 import Button from "@mui/material/Button";
 import { pink, lightGreen } from "@mui/material/colors";
+import { db } from "../firebase"; // Adjust the import path as necessary
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 
 const LogIn = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
+  const authenticated = session?.user !== undefined;
+
+  const [userData, setUserData] = useState({ name: "", image: "" });
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (authenticated) {
+        if (session?.user?.name === undefined) {
+          const users = collection(db, "users");
+          const q = query(users, where("email", "==", session?.user?.email));
+          const querySnapshot = await getDocs(q);
+
+          querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            setUserData({ name: data.name, image: data.image });
+          });
+        } else {
+          setUserData({ name: session.user.name, image: session.user.image });
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [session]);
+
   const handleLogin = async () => {
-    signIn(undefined, { callbackUrl: "/" });
+    const result = await signIn(undefined, {
+      redirect: true,
+      callbackUrl: "/",
+    });
+
+    if (result?.error) {
+      alert("Wrong credentials!");
+    } else {
+      router.push("/");
+    }
   };
 
   const handleLogout = async () => {
@@ -31,10 +74,7 @@ const LogIn = () => {
             className="btn btn-ghost btn-circle avatar"
           >
             <div className="w-10 rounded-full">
-              <img
-                src={session.user.image}
-                alt="Tailwind CSS Navbar component"
-              />
+              <img src={userData.image} alt="Tailwind CSS Navbar component" />
             </div>
           </div>
           <ul
@@ -43,7 +83,7 @@ const LogIn = () => {
           >
             <li>
               <div className="justify-between">
-                {session.user.name} <br /> <TotalHours /> points
+                {userData.name} <br /> <TotalHours /> points
               </div>
             </li>
 

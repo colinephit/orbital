@@ -141,7 +141,7 @@ function Page() {
         </div>
         <div
           style={{
-            width: "50%",
+            width: "100%",
 
             marginTop: "60px",
           }}
