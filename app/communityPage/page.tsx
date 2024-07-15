@@ -176,7 +176,7 @@ function Page() {
           style={{
             display: "flex",
             justifyContent: "center",
-            marginLeft: "250px",
+            marginLeft: "500px",
           }}
         >
           <Leaderboard />
