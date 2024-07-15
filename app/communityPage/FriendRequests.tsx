@@ -131,76 +131,81 @@ function FriendRequests({ request }) {
   }, [request]);
 
   return (
-    <Card
-      sx={{
-        borderRadius: "10px",
-        display: "flex",
-        alignItems: "center",
-        marginTop: "10px",
-        width: 580,
-        height: 200,
-        backgroundColor: amber[50],
-      }}
+    <div
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      <div style={{ display: "flex", alignItems: "center", paddingLeft: 20 }}>
-        <Avatar
-          //@ts-ignore
-          src={info.image}
-          sx={{
-            width: 80,
-            height: 80,
-            marginTop: "10px",
-            marginBottom: "10px",
-            marginLeft: "10px",
-            borderRadius: "50%",
-          }}
-        >
-          <PersonIcon sx={{ height: 70, width: 50 }} />
-        </Avatar>
-        <div>
+      <Card
+        sx={{
+          borderRadius: "10px",
+          display: "flex",
+          alignItems: "center",
+          marginTop: "10px",
+          width: 580,
+          height: 200,
+          backgroundColor: amber[50],
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", paddingLeft: 20 }}>
+          <Avatar
+            //@ts-ignore
+            src={info.image}
+            sx={{
+              width: 80,
+              height: 80,
+              marginTop: "10px",
+              marginBottom: "10px",
+              marginLeft: "10px",
+              borderRadius: "50%",
+            }}
+          >
+            <PersonIcon sx={{ height: 70, width: 50 }} />
+          </Avatar>
+          <div>
+            <div
+              style={{
+                alignItems: "left",
+                justifyContent: "left",
+                display: "flex",
+                marginLeft: "40px",
+                marginBottom: "13px",
+                fontSize: "30px",
+                fontFamily: "Segoe UI",
+              }}
+            >
+              {/* @ts-ignore */}
+              {info.name}
+            </div>
+          </div>
           <div
             style={{
-              alignItems: "left",
-              justifyContent: "left",
-              display: "flex",
-              marginLeft: "40px",
-              marginBottom: "13px",
-              fontSize: "30px",
-              fontFamily: "Segoe UI",
+              marginLeft: "35px",
             }}
           >
-            {/* @ts-ignore */}
-            {info.name}
+            <Button
+              variant="contained"
+              onClick={async (e) => {
+                console.log(request);
+                const addedFriend = await addFriend(
+                  currentUser.data.user.email,
+                  request
+                );
+                location.reload();
+              }}
+              sx={{
+                "&:hover": {
+                  backgroundColor: pink[300],
+                },
+                backgroundColor: pink[300],
+                outline: pink[300],
+                marginLeft: "40%",
+              }}
+            >
+              Accept
+            </Button>
           </div>
         </div>
-        <div
-          style={{
-            marginLeft: "35px",
-          }}
-        >
-          <Button
-            variant="contained"
-            onClick={async (e) => {
-              console.log(request);
-              const addedFriend = await addFriend(
-                currentUser.data.user.email,
-                request
-              );
-              location.reload();
-            }}
-            sx={{
-              "&:hover": {
-                backgroundColor: pink[300],
-              },
-              backgroundColor: pink[200],
-              outline: pink[300],
-            }}
-          >
-            Accept
-          </Button>
-        </div>
-      </div>
-    </Card>
+      </Card>
+    </div>
   );
 }
 

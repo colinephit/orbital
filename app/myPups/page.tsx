@@ -60,7 +60,7 @@ function Page() {
   }, [status, session]);
 
   return (
-    <div>
+    <div style={{ height: "100vh" }}>
       <h1>My Pups</h1>
       {/*an example of how pup card will be used (map different types of unlocked pups to each of their own card)*/}
 
