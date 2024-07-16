@@ -103,7 +103,6 @@ function Page() {
         style={{
           display: "flex",
           flexDirection: "row",
-          width: "80%",
         }}
       >
         <div
@@ -145,7 +144,7 @@ function Page() {
                   sx={{
                     fontSize: "17px",
                     width: "40%",
-                    marginLeft: "30%",
+                    marginLeft: "20%",
                     marginBottom: "40px",
                   }}
                   icon={<InfoIcon />}
@@ -158,7 +157,7 @@ function Page() {
               ))}
             </div>
           </div>
-          <div style={{ width: "100%", textAlign: "center" }}>
+          <div style={{ textAlign: "center" }}>
             <h1 className="text-center">My Friends</h1>
             <div
               style={{
@@ -176,7 +175,7 @@ function Page() {
           style={{
             display: "flex",
             justifyContent: "center",
-            marginLeft: "500px",
+            marginLeft: "100px",
           }}
         >
           <Leaderboard />
