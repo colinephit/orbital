@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import SignInwithGoogle from "./signinwithgoogle";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import ForgotPassword from "./ForgotPassword";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -14,16 +15,19 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!email || !password) {
+      return;
+    }
+
     signIn("credentials", {
       email,
       password,
       redirect: false,
     }).then(({ ok, error }) => {
       if (ok) {
-        console.log("ok");
         router.push("/");
       } else {
-        alert("no user found");
+        alert("No user found");
       }
     });
   };
@@ -69,7 +73,7 @@ function Login() {
         </div>
 
         <p className="forgot-password text-right">
-          <a href="/register">Forgot Password</a>
+          <ForgotPassword />
         </p>
 
         <div className="d-grid">
@@ -77,6 +81,7 @@ function Login() {
             Submit
           </button>
         </div>
+        <br></br>
         <p className="forgot-password text-right">
           New user? <a href="/register">Register Here</a>
         </p>

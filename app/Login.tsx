@@ -27,18 +27,14 @@ const LogIn = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       if (authenticated) {
-        if (session?.user?.name === undefined) {
-          const users = collection(db, "users");
-          const q = query(users, where("email", "==", session?.user?.email));
-          const querySnapshot = await getDocs(q);
+        const users = collection(db, "users");
+        const q = query(users, where("email", "==", session?.user?.email));
+        const querySnapshot = await getDocs(q);
 
-          querySnapshot.forEach((doc) => {
-            const data = doc.data();
-            setUserData({ name: data.name, image: data.image });
-          });
-        } else {
-          setUserData({ name: session.user.name, image: session.user.image });
-        }
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          setUserData({ name: data.name, image: data.image });
+        });
       }
     };
 
@@ -63,6 +59,11 @@ const LogIn = () => {
     router.push("/");
   };
 
+  const linkStyle = {
+    textDecoration: "none",
+    color: "black",
+  };
+
   if (session && session.user) {
     return (
       <div className="flex-none gap-2">
@@ -81,19 +82,31 @@ const LogIn = () => {
             className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-white rounded-box w-52"
           >
             <li>
-              <div className="justify-between">
+              <Link
+                href="/profile"
+                className="justify-between"
+                style={linkStyle}
+              >
                 {userData.name} <br /> <TotalHours /> points
-              </div>
+              </Link>
             </li>
 
             <li>
-              <Link href="/myPups" className="justify-between">
+              <Link
+                href="/myPups"
+                className="justify-between"
+                style={linkStyle}
+              >
                 My Pups
               </Link>
             </li>
 
             <li>
-              <Link href="/communityPage" className="justify-between">
+              <Link
+                href="/communityPage"
+                className="justify-between"
+                style={linkStyle}
+              >
                 My Friends
               </Link>
             </li>
