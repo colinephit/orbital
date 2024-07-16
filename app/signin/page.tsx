@@ -29,41 +29,68 @@ function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h3>Login</h3>
+    <div
+      style={{
+        alignItems: "center",
+        justifyContent: "center",
+        display: "flex",
+      }}
+    >
+      <form
+        style={{
+          width: "50%",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        onSubmit={handleSubmit}
+      >
+        <h3 className="text-center">Login</h3>
 
-      <div className="mb-3">
-        <label>Email address</label>
-        <input
-          type="email"
-          className="form-control"
-          placeholder="Enter email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </div>
+        <div className="mb-3">
+          <label>Email address</label>
+          <input
+            type="email"
+            className="form-control"
+            placeholder="Enter email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
 
-      <div className="mb-3">
-        <label>Password</label>
-        <input
-          type="password"
-          className="form-control"
-          placeholder="Enter password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
+        <div className="mb-3">
+          <label>Password</label>
+          <input
+            type="password"
+            className="form-control"
+            placeholder="Enter password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
 
-      <div className="d-grid">
-        <button onClick={handleSubmit} className="btn btn-primary">
-          Submit
-        </button>
-      </div>
-      <p className="forgot-password text-right">
-        New user <a href="/register">Register Here</a>
-      </p>
-      <SignInwithGoogle />
-    </form>
+        <p className="forgot-password text-right">
+          <a href="/register">Forgot Password</a>
+        </p>
+
+        <div className="d-grid">
+          <button onClick={handleSubmit} className="btn btn-primary">
+            Submit
+          </button>
+        </div>
+        <p className="forgot-password text-right">
+          New user? <a href="/register">Register Here</a>
+        </p>
+
+        <div className="flex flex-row text-center w-full">
+          <div className="border-b-2 mb-2.5 mr-2 w-full"></div>
+          <div className="text-sm font-bold w-fit">OR</div>
+          <div className="border-b-2 mb-2.5 ml-2 w-full"></div>
+        </div>
+        <div style={{ margin: "20px" }}>
+          <SignInwithGoogle />
+        </div>
+      </form>
+    </div>
   );
 }
 
