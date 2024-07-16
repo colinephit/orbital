@@ -87,9 +87,10 @@ function FriendsCard({ friend }) {
         display: "flex",
         alignItems: "center",
         marginTop: "10px",
-        width: "75%",
+        width: "550px",
         height: 200,
         backgroundColor: amber[50],
+        maxWidth: "700px",
       }}
     >
       <div style={{ display: "flex", alignItems: "center", paddingLeft: 20 }}>
@@ -97,8 +98,8 @@ function FriendsCard({ friend }) {
           //@ts-ignore
           src={info.image}
           sx={{
-            width: 80,
-            height: 80,
+            width: 90,
+            height: 90,
             marginTop: "10px",
             marginBottom: "10px",
             marginLeft: "10px",
@@ -114,8 +115,8 @@ function FriendsCard({ friend }) {
               justifyContent: "left",
               display: "flex",
               marginLeft: "40px",
-              marginBottom: "13px",
-              fontSize: "30px",
+              marginBottom: "10px",
+              fontSize: "28px",
               fontFamily: "Segoe UI",
             }}
           >
@@ -141,7 +142,7 @@ function FriendsCard({ friend }) {
             height="130"
             style={{
               marginTop: "10px",
-              marginLeft: "30px",
+              marginLeft: "10px",
               marginRight: "10px",
               marginBottom: "10px",
             }}

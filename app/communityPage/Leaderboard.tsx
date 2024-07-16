@@ -128,11 +128,12 @@ function Leaderboard() {
     <div
       style={{
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
       }}
     >
-      <div style={{ alignItems: "center", width: "100%", maxWidth: "500px" }}>
+      <div style={{ width: "100%", maxWidth: "900px" }}>
         <h1 style={{ textAlign: "center" }}>Leaderboard</h1>
 
         <div
@@ -149,8 +150,11 @@ function Leaderboard() {
               padding: "10px",
               marginTop: "30px",
               marginRight: "30px",
-              width: "150px",
+              width: "180px",
               fontSize: "16px",
+              color: "#558b2f",
+              borderColor: "#558b2f",
+              borderWidth: "1.5px",
             }}
             onClick={() => setLeaderboardType("weekly")}
             endIcon={<DateRangeIcon />}
@@ -161,9 +165,12 @@ function Leaderboard() {
             variant="outlined"
             style={{
               padding: "10px",
-              width: "150px",
+              width: "180px",
               marginTop: "30px",
               fontSize: "16px",
+              color: "#558b2f",
+              borderColor: "#558b2f",
+              borderWidth: "1.5px",
             }}
             onClick={() => setLeaderboardType("allTime")}
             endIcon={<EmojiEventsRoundedIcon />}
@@ -176,11 +183,11 @@ function Leaderboard() {
           component={Paper}
           sx={{
             marginTop: "50px",
-            width: "100%",
+            width: "750px",
             alignItems: "center",
           }}
         >
-          <Table sx={{ width: "500px" }} aria-label="simple table">
+          <Table sx={{ width: "750px" }} aria-label="simple table">
             <TableHead sx={{ backgroundColor: "#ECF2D5" }}>
               <TableRow>
                 <TableCell

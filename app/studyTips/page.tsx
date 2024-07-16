@@ -20,13 +20,16 @@ export default function StudyTips() {
   return (
     <div>
       <div className="p-4">
-        <Header title="Productivity Page" />
+        <Header title="Pomodoro Timer" />
       </div>
       <div className="flex justify-center">
         <PomodoroTimer />
       </div>
+      <div style={{ marginTop: "50px" }}>
+        <Header title="Productivity Tips" />
+      </div>
 
-      <div className="p-5 flex justify-center items-center">
+      <div className="p-3 flex justify-center items-center flex-col">
         <TipsCarousel flashcards={flashcards} />
       </div>
     </div>

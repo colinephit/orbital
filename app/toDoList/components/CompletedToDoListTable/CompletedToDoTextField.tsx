@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import { lightGreen } from "@mui/material/colors";
 
 function CompletedToDoTextField({ text }) {
-  return <div className="">{text}</div>;
+  return <div style={{ fontSize: "16px" }}>{text}</div>;
 }
 
 export default CompletedToDoTextField;

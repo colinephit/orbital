@@ -79,80 +79,99 @@ function SearchFriendsPopUp() {
     <React.Fragment>
       <AddFriends onClick={handleClickOpen} />
 
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          PaperProps={{
-            component: "form",
-            onSubmit: handleSearch,
-          }}
-          maxWidth="sm"
-          fullWidth
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          style: {
+            height: "800px",
+          },
+          component: "form",
+          onSubmit: handleSearch,
+        }}
+        maxWidth="md"
+        fullWidth
+        style={{
+          textAlign: "center",
+        }}
+      >
+        <DialogTitle style={{ fontSize: "25px", marginRight: "20px" }}>
+          Find Friends
+        </DialogTitle>
+
+        <DialogContent>
+          <DialogContentText>Enter your friend's email</DialogContentText>
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            id="name"
+            name="email"
+            label="Email Address"
+            type="email"
+            fullWidth
+            variant="standard"
+            style={{ height: "50px" }}
+          />
+        </DialogContent>
+
+        {/*each possible friend will show up in each of these cards*/}
+        <div
           style={{
-            textAlign: "center",
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "20px",
           }}
         >
-          <DialogTitle style={{ fontSize: "25px" }}>Find Friends</DialogTitle>
+          {user ? (
+            <SearchFriendsCard friend={user} />
+          ) : (
+            noUserFound && (
+              <Alert
+                severity="error"
+                style={{ width: "300px", justifyContent: "center" }}
+              >
+                No user found
+              </Alert>
+            )
+          )}
+        </div>
 
-          <DialogContent>
-            <DialogContentText>Enter your friend's email</DialogContentText>
-            <TextField
-              autoFocus
-              required
-              margin="dense"
-              id="name"
-              name="email"
-              label="Email Address"
-              type="email"
-              fullWidth
-              variant="standard"
-            />
-          </DialogContent>
+        <DialogTitle style={{ fontSize: "25px" }}>Existing Users</DialogTitle>
 
-          {/*each possible friend will show up in each of these cards*/}
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            {user ? (
-              <SearchFriendsCard friend={user} />
-            ) : (
-              noUserFound && <Alert severity="error">No user found</Alert>
-            )}
-          </div>
-          <div>
-            <DialogTitle style={{ fontSize: "25px" }}>
-              Existing Users
-            </DialogTitle>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              overflowX: "scroll",
-              whiteSpace: "nowrap",
-              height: "200px",
-            }}
-          >
-            {searchResults.length > 0 ? (
-              searchResults.map((user, index) => (
-                <div
-                  key={index}
-                  style={{ display: "flex", justifyContent: "center" }}
-                >
-                  <SearchFriendsCard friend={user} />
-                </div>
-              ))
-            ) : (
-              <Alert severity="error">No existing users found</Alert>
-            )}
-          </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            overflowX: "scroll",
+            whiteSpace: "nowrap",
+            height: "500px",
+          }}
+        >
+          {searchResults.length > 0 ? (
+            searchResults.map((user, index) => (
+              <div
+                key={index}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginBottom: "30px",
+                }}
+              >
+                <SearchFriendsCard friend={user} />
+              </div>
+            ))
+          ) : (
+            <Alert severity="error">No existing users found</Alert>
+          )}
+        </div>
 
-          <DialogActions>
-            <Button onClick={handleClose}>Close</Button>
+        <DialogActions>
+          <Button onClick={handleClose}>Close</Button>
 
-            {/*<Button type="submit">Add</Button>*/}
-          </DialogActions>
-        </Dialog>
-      </div>
+          {/*<Button type="submit">Add</Button>*/}
+        </DialogActions>
+      </Dialog>
     </React.Fragment>
   );
 }

@@ -435,7 +435,9 @@ function ToDoTable() {
                             onChange={(e) => setEditSubject(e.target.value)}
                           />
                         ) : (
-                          <Typography>{todo.Subject}</Typography>
+                          <Typography style={{ fontSize: "17px" }}>
+                            {todo.Subject}
+                          </Typography>
                         )}
                       </div>
                     </td>
@@ -453,7 +455,9 @@ function ToDoTable() {
                             onChange={(e) => setEditTask(e.target.value)}
                           />
                         ) : (
-                          <Typography>{todo.Task}</Typography>
+                          <Typography style={{ fontSize: "17px" }}>
+                            {todo.Task}
+                          </Typography>
                         )}
                       </div>
                     </td>
@@ -472,7 +476,7 @@ function ToDoTable() {
                             onChange={(e) => setEditDeadline(e.target.value)}
                           />
                         ) : (
-                          <Typography>{`${new Date(
+                          <Typography style={{ fontSize: "17px" }}>{`${new Date(
                             Date.parse(todo.Deadline)
                           ).getDate()}/${
                             new Date(Date.parse(todo.Deadline)).getMonth() + 1
