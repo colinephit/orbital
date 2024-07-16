@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import TotalHours from "./toDoList/components/Rewards/Points";
 import Link from "next/link";
 import Button from "@mui/material/Button";
-import { pink, lightGreen } from "@mui/material/colors";
 import { db } from "../firebase"; // Adjust the import path as necessary
 import {
   collection,
@@ -67,7 +66,7 @@ const LogIn = () => {
   if (session && session.user) {
     return (
       <div className="flex-none gap-2">
-        <div className="dropdown dropdown-end">
+        <div className="dropdown dropdown-end bg-white">
           <div
             tabIndex={0}
             role="button"
@@ -79,7 +78,7 @@ const LogIn = () => {
           </div>
           <ul
             tabIndex={0}
-            className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+            className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-white rounded-box w-52"
           >
             <li>
               <div className="justify-between">

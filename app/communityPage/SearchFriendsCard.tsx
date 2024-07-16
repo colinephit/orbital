@@ -85,14 +85,22 @@ function SearchFriendsCard({ friend }) {
         sx={{
           borderRadius: "10px",
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
           marginTop: "10px",
-          width: 500,
+          width: 600,
           height: 180,
           backgroundColor: amber[50],
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", paddingLeft: 20 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            padding: "10px",
+            marginTop: "30px",
+          }}
+        >
           <Avatar
             src={friend.image}
             sx={{
@@ -104,46 +112,41 @@ function SearchFriendsCard({ friend }) {
               borderRadius: "50%",
             }}
           ></Avatar>
-          <div>
-            <div
-              style={{
-                alignItems: "left",
-                justifyContent: "left",
-                display: "flex",
-                marginLeft: "40px",
-                marginBottom: "1px",
-                fontSize: "30px",
-                fontFamily: "Segoe UI",
-              }}
-            >
-              {friend.name}
-            </div>
-          </div>
+
           <div
             style={{
-              marginLeft: "35px",
-              paddingRight: "20px",
+              alignItems: "left",
+              justifyContent: "left",
+              display: "flex",
+              marginLeft: "40px",
+              marginBottom: "1px",
+              fontSize: "30px",
+              fontFamily: "Segoe UI",
+              width: "180px",
             }}
           >
-            <Button
-              variant="contained"
-              onClick={async (e) => {
-                const requestFriend = await sendFriendRequest(
-                  currentUser.data.user.email,
-                  friend.email
-                );
-              }}
-              sx={{
-                "&:hover": {
-                  backgroundColor: pink[300],
-                },
-                backgroundColor: pink[300],
-                outline: pink[300],
-              }}
-            >
-              Send request
-            </Button>
+            {friend.name}
           </div>
+
+          <Button
+            variant="contained"
+            onClick={async (e) => {
+              const requestFriend = await sendFriendRequest(
+                currentUser.data.user.email,
+                friend.email
+              );
+            }}
+            sx={{
+              "&:hover": {
+                backgroundColor: pink[300],
+              },
+              backgroundColor: pink[300],
+              outline: pink[300],
+              marginLeft: "100px",
+            }}
+          >
+            Send request
+          </Button>
         </div>
       </Card>
     </div>
