@@ -6,6 +6,11 @@ import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
 import WorkRoundedIcon from "@mui/icons-material/WorkRounded";
 
+const linkStyle = {
+  textDecoration: "none",
+  color: "rgb(204,0,102)",
+};
+
 function NavigationBar() {
   return (
     <div className="navbar bg-white ">
@@ -17,7 +22,7 @@ function NavigationBar() {
 
       <ul className="menu bg-gray-100 lg:menu-horizontal rounded-box w-45 align-left">
         <li>
-          <Link href="/">
+          <Link href="/" style={linkStyle}>
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -29,7 +34,7 @@ function NavigationBar() {
           </Link>
         </li>
         <li>
-          <Link href="/aboutUs">
+          <Link href="/aboutUs" style={linkStyle}>
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -41,7 +46,7 @@ function NavigationBar() {
           </Link>
         </li>
         <li>
-          <Link href="/toDoList">
+          <Link href="/toDoList" style={linkStyle}>
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -53,7 +58,7 @@ function NavigationBar() {
           </Link>
         </li>
         <li>
-          <Link href="/studyTips">
+          <Link href="/studyTips" style={linkStyle}>
             <WorkRoundedIcon />
             Productivity Page
             <span className="badge badge-xs badge-info"></span>
