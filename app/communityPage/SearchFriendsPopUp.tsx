@@ -111,7 +111,7 @@ function SearchFriendsPopUp() {
             type="email"
             fullWidth
             variant="standard"
-            style={{ height: "50px" }}
+            style={{ height: "100px" }}
           />
         </DialogContent>
 

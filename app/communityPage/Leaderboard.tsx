@@ -133,7 +133,7 @@ function Leaderboard() {
         alignItems: "center",
       }}
     >
-      <div style={{ width: "100%", maxWidth: "900px" }}>
+      <div style={{ maxWidth: "900px" }}>
         <h1 style={{ textAlign: "center" }}>Leaderboard</h1>
 
         <div
@@ -182,12 +182,10 @@ function Leaderboard() {
         <TableContainer
           component={Paper}
           sx={{
-            marginTop: "50px",
-            width: "750px",
-            alignItems: "center",
+            margin: "auto",
           }}
         >
-          <Table sx={{ width: "750px" }} aria-label="simple table">
+          <Table aria-label="simple table">
             <TableHead sx={{ backgroundColor: "#ECF2D5" }}>
               <TableRow>
                 <TableCell
