@@ -145,8 +145,8 @@ function Profile() {
         )}
       </div>
       <br />
-      <div className="mb-3">
-        <label>Name</label>
+      <div className="mb-3 text-center">
+        <h4>Name</h4>
         {isEditing ? (
           <div>
             <TextField

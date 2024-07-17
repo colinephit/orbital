@@ -541,6 +541,7 @@ function ToDoTable() {
             Completed To-dos
           </h2>
         </>
+        <br></br>
         <ToDoButton
           text={"Clear All"}
           onClickAction={async () => {
@@ -548,6 +549,7 @@ function ToDoTable() {
             await fetchAndUpdateEmptyables();
           }}
         />
+        <br></br>
       </div>
       <>
         <CompletedToDoListTable emptyables={emptyables} />
