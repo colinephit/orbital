@@ -22,7 +22,7 @@ function CompletedRow({ subject, task, deadline, completionDate, hours }) {
         </tr>
       </td>
 
-      <td id="Task">
+      <td id="Task" className="w-1/5">
         <tr className="border-none">
           <td>
             <div className="flex items-center gap-3 cursor-default">
@@ -32,7 +32,7 @@ function CompletedRow({ subject, task, deadline, completionDate, hours }) {
         </tr>
       </td>
 
-      <td id="Deadline">
+      <td id="Deadline" className="w-1/5">
         <tr className="border-none">
           <td>
             <div className="flex items-center gap-3 cursor-default">
@@ -46,7 +46,7 @@ function CompletedRow({ subject, task, deadline, completionDate, hours }) {
         </tr>
       </td>
 
-      <td id="Date of Completion">
+      <td id="Date of Completion" className="w-1/5">
         <tr className="border-none">
           <td>
             <div className="flex items-center gap-3 cursor-default">
@@ -56,7 +56,7 @@ function CompletedRow({ subject, task, deadline, completionDate, hours }) {
         </tr>
       </td>
 
-      <td id="Hours Spent">
+      <td id="Hours Spent" className="w-1/5">
         <tr className="border-none">
           <td>
             <div className="flex items-center gap-3 cursor-default">
