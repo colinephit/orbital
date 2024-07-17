@@ -131,9 +131,10 @@ function Leaderboard() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        marginBottom: "200px",
       }}
     >
-      <div style={{ maxWidth: "900px" }}>
+      <div style={{ width: "750px" }}>
         <h1 style={{ textAlign: "center" }}>Leaderboard</h1>
 
         <div
@@ -179,12 +180,7 @@ function Leaderboard() {
           </Button>
         </div>
 
-        <TableContainer
-          component={Paper}
-          sx={{
-            margin: "auto",
-          }}
-        >
+        <TableContainer component={Paper}>
           <Table aria-label="simple table">
             <TableHead sx={{ backgroundColor: "#ECF2D5" }}>
               <TableRow>

@@ -423,7 +423,7 @@ function ToDoTable() {
                   />
                 </th>
 
-                <td id="Subject">
+                <td id="Subject" className="w-1/4">
                   <tr className="border-none">
                     <th></th>
                     <td>
@@ -444,7 +444,7 @@ function ToDoTable() {
                   </tr>
                 </td>
 
-                <td id="Task">
+                <td id="Task" className="w-1/4">
                   <tr className="border-none">
                     <td>
                       <div className="flex items-center gap-3"></div>
