@@ -9,8 +9,14 @@ import ForgotPassword from "./ForgotPassword";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   const router = useRouter();
+
+  const validateEmail = (email) => {
+    // email validation regex
+    return /\S+@\S+\.\S+/.test(email);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,17 +25,22 @@ function Login() {
       return;
     }
 
-    signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    }).then(({ ok, error }) => {
-      if (ok) {
-        router.push("/");
-      } else {
-        alert("No user found");
-      }
-    });
+    if (!validateEmail(email)) {
+      setEmailError("Please enter a valid email address.");
+    } else {
+      setEmailError("");
+      signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      }).then(({ ok, error }) => {
+        if (ok) {
+          router.push("/");
+        } else {
+          alert("No user found");
+        }
+      });
+    }
   };
 
   return (
@@ -59,6 +70,7 @@ function Login() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          {emailError && <div className="text-danger">{emailError}</div>}
         </div>
 
         <div className="mb-3">
