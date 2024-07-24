@@ -74,7 +74,7 @@ const LogIn = () => {
             className="btn btn-ghost btn-circle avatar"
           >
             <div className="w-10 rounded-full">
-              <img src={userData.image} alt="Profile picture" />
+              <img src={userData.image} alt="Tailwind CSS Navbar component" />
             </div>
           </div>
           <ul
