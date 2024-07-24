@@ -27,7 +27,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "app/toDoList/components/HomePageButton.tsx", "app/toDoList/components/HomePageButton.tsx", "app/Login.test.js", "app/Login.test.js"],
+, "app/toDoList/components/HomePageButton.tsx", "app/toDoList/components/HomePageButton.tsx", "app/Login.test.js", "app/Login.test.js", "tests/communitypage.test.js", "tests/timer.test.js", "tests/timer.test.js"],
   "exclude": [
     "node_modules"
   ]

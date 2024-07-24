@@ -19,7 +19,7 @@ test("should navigate to the to do list page", async ({ page }) => {
 test("should navigate to the productivity tips page", async ({ page }) => {
   await page.goto("http://localhost:3000/");
 
-  await page.click("text=Productivity Tips");
+  await page.click("text=Productivity Page");
 
   await expect(page).toHaveURL("http://localhost:3000/studyTips");
 });
@@ -30,7 +30,7 @@ test("should log in", async ({ page }) => {
   await page.click("text=Login");
 
   await expect(page).toHaveURL(
-    "http://localhost:3000/api/auth/signin?callbackUrl=%2F"
+    "http://localhost:3000/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F"
   );
 
   await page.click("button");
