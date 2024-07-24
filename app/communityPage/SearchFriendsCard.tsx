@@ -66,6 +66,7 @@ async function sendFriendRequest(user, friend) {
       await updateDoc(docRef, {
         Requests: arrayUnion(user),
       });
+      alert("Friend request has been successfully sent!");
     });
   } else {
     const newDocRef = doc(friendsCollection);
@@ -73,6 +74,7 @@ async function sendFriendRequest(user, friend) {
       Email: user,
       Requests: [user],
     });
+    alert("Friend request has been successfully sent!");
   }
 }
 
