@@ -10,6 +10,9 @@ To learn more about this web app, refer to the README below to learn more about 
 **Links**
 
 README: https://docs.google.com/document/d/1-asxcZlG_PkAE8iPHG2GLNnlbdMd27w6tb_eSRHk8QA/edit
+
 Video: <insert ms3 video after completion>
+
 Website: <insert final deployed version of app>
+
 Poster: 
