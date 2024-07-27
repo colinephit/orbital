@@ -10,14 +10,7 @@ import { alpha, styled } from "@mui/material/styles";
 import { pink } from "@mui/material/colors";
 import Switch from "@mui/material/Switch";
 import { db } from "../firebase"; // Adjust the import path as necessary
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { FormControlLabel } from "@mui/material";
 
 const PinkSwitch = styled(Switch)(({ theme }) => ({
@@ -61,6 +54,24 @@ const LogIn = () => {
     fetchUserData();
   }, [session]);
 
+  useEffect(() => {
+    const savedAudioState = localStorage.getItem("isAudioPlaying");
+    if (savedAudioState !== null) {
+      setIsAudioPlaying(JSON.parse(savedAudioState));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      if (isAudioPlaying) {
+        audioRef.current.play();
+      } else {
+        audioRef.current.pause();
+      }
+      localStorage.setItem("isAudioPlaying", JSON.stringify(isAudioPlaying));
+    }
+  }, [isAudioPlaying]);
+
   const handleLogin = async () => {
     const result = await signIn(undefined, {
       redirect: true,
@@ -81,11 +92,6 @@ const LogIn = () => {
 
   const handleAudioToggle = () => {
     setIsAudioPlaying((prev) => !prev);
-    if (isAudioPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play();
-    }
   };
 
   const linkStyle = {
@@ -96,7 +102,7 @@ const LogIn = () => {
   if (session && session.user) {
     return (
       <div className="flex-none gap-2">
-        <audio id="audio" loop autoPlay ref={audioRef}>
+        <audio id="audio" loop ref={audioRef}>
           <source src="/music.mp3" />
         </audio>
         <div className="dropdown dropdown-end bg-white">
