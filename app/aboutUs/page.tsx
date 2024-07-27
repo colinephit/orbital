@@ -48,6 +48,11 @@ export default function aboutUs() {
           elements, users can achieve their goals while maintaining balance and
           overall well-being.
         </p>
+
+        <br></br>
+        <p className="text-center">
+          Special thanks to @mousyrina for the pup animations
+        </p>
       </div>
     </div>
   );

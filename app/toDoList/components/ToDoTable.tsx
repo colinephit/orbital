@@ -13,9 +13,15 @@ import PopUp from "./Rewards/PopUp";
 import {
   Checkbox,
   Container,
+  FormControl,
+  FormHelperText,
+  InputLabel,
   ListItem,
   ListItemIcon,
   ListItemText,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
   Typography,
 } from "@mui/material";
 import {
@@ -36,13 +42,14 @@ import { SessionProvider } from "next-auth/react";
 import { DatePicker } from "react-rainbow-components";
 
 //function to add todos to firestore
-async function addTodoToFirebase(Subject, Task, Deadline, Email) {
+async function addTodoToFirebase(Subject, Task, Deadline, Priority, Email) {
   try {
     //const session = await getServerSession(authOptions);
     const docRef = await addDoc(collection(db, "todos"), {
       Subject: Subject,
       Task: Task,
       Deadline: Deadline,
+      Priority: Priority,
       createdAt: serverTimestamp(),
       Email: Email,
     });
@@ -55,15 +62,25 @@ async function addTodoToFirebase(Subject, Task, Deadline, Email) {
 }
 
 //function to fetch todos from firestore
-async function fetchTodosFromFirestore(Email) {
+async function fetchTodosFromFirestore(Email, filter) {
   const todosCollection = collection(db, "todos");
-  const querySnapshot = await getDocs(
-    query(
-      todosCollection,
-      where("Email", "==", Email),
-      orderBy("Deadline", "asc")
-    )
-  );
+  let todosQuery = query(todosCollection, where("Email", "==", Email));
+
+  switch (filter) {
+    case "Subject":
+      todosQuery = query(todosQuery, orderBy("Subject", "asc"));
+      break;
+    case "Deadline":
+      todosQuery = query(todosQuery, orderBy("Deadline", "asc"));
+      break;
+    case "Priority":
+      todosQuery = query(todosQuery, orderBy("Priority", "desc"));
+      break;
+    default:
+      todosQuery = query(todosQuery, orderBy("Deadline", "asc"));
+  }
+
+  const querySnapshot = await getDocs(todosQuery);
   const todos = [];
   querySnapshot.forEach((doc) => {
     const todoData = doc.data();
@@ -169,6 +186,7 @@ function ToDoTable() {
   const [Subject, setSubject] = useState("");
   const [Task, setTask] = useState("");
   const [Deadline, setDeadline] = useState("");
+  const [Priority, setPriority] = useState("");
   const currentUser = useSession();
 
   //state to hold the list of todos
@@ -184,11 +202,19 @@ function ToDoTable() {
   const [editSubject, setEditSubject] = useState("");
   const [editTask, setEditTask] = useState("");
   const [editDeadline, setEditDeadline] = useState("");
+  const [editPriority, setEditPriority] = useState("");
+
+  const [filter, setFilter] = useState("Deadline");
+
+  const handleSelectChange = (event: SelectChangeEvent) => {
+    setPriority(event.target.value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const selectedDate = new Date(Deadline);
+    selectedDate.setHours(23, 99);
     const currentDate = new Date();
 
     if (selectedDate < currentDate) {
@@ -200,21 +226,53 @@ function ToDoTable() {
       Subject,
       Task,
       Deadline,
+      Priority,
       currentUser?.data?.user?.email
     );
     if (added) {
       setSubject("");
       setTask("");
       setDeadline("");
+      setPriority("");
 
-      await fetchAndUpdateTodos();
+      await fetchAndUpdateTodos("Deadline");
     }
   };
 
   // Function to fetch todos and update state
-  const fetchAndUpdateTodos = async () => {
+  const fetchAndUpdateTodos = async (filter) => {
     if (currentUser?.data?.user?.email) {
-      const todos = await fetchTodosFromFirestore(currentUser.data.user.email);
+      // Fetch todos based on the filter
+      let todosQuery;
+      const todosCollection = collection(db, "todos");
+
+      if (filter === "Deadline") {
+        todosQuery = query(
+          todosCollection,
+          where("Email", "==", currentUser.data.user.email),
+          orderBy("Deadline", "asc")
+        );
+      } else if (filter === "Priority") {
+        todosQuery = query(
+          todosCollection,
+          where("Email", "==", currentUser.data.user.email),
+          orderBy("Priority", "desc")
+        );
+      } else {
+        // Default case or other filters
+        todosQuery = query(
+          todosCollection,
+          where("Email", "==", currentUser.data.user.email),
+          orderBy("createdAt", "desc")
+        );
+      }
+
+      const querySnapshot = await getDocs(todosQuery);
+      const todos = [];
+      querySnapshot.forEach((doc) => {
+        const todoData = doc.data();
+        todos.push({ id: doc.id, ...(todoData as object) });
+      });
       setTodos(todos);
     }
   };
@@ -234,7 +292,8 @@ function ToDoTable() {
     async function fetchTodos() {
       if (currentUser?.data?.user?.email) {
         const todos = await fetchTodosFromFirestore(
-          currentUser.data.user.email
+          currentUser.data.user.email,
+          filter
         );
         setTodos(todos);
       }
@@ -274,6 +333,7 @@ function ToDoTable() {
     setEditSubject(todo.Subject);
     setEditTask(todo.Task);
     setEditDeadline(todo.Deadline);
+    setEditPriority(todo.Priority);
   };
 
   const handleSaveClick = async (todoId) => {
@@ -281,11 +341,27 @@ function ToDoTable() {
       Subject: editSubject,
       Task: editTask,
       Deadline: editDeadline,
+      Priority: editPriority,
     };
     const todoRef = doc(db, "todos", todoId);
     await updateDoc(todoRef, updatedTodo);
     setEditTodoId(null);
-    await fetchAndUpdateTodos();
+    await fetchAndUpdateTodos("Deadline");
+  };
+
+  const handleFilterChange = async (event) => {
+    const newFilter = event.target.value;
+    console.log(newFilter); // This will log the selected value
+
+    // Update the state and log the updated state using a callback
+    setFilter(newFilter);
+    setFilter((prevFilter) => {
+      console.log("Updated filter:", newFilter);
+      return newFilter;
+    });
+
+    // Pass the newFilter directly to fetchAndUpdateTodos
+    await fetchAndUpdateTodos(newFilter);
   };
 
   if (!currentUser || !currentUser.data || !currentUser.data.user) {
@@ -308,6 +384,7 @@ function ToDoTable() {
               <th className="text-2xl">Subject</th>
               <th className="text-2xl">Task</th>
               <th className="text-2xl">Deadline</th>
+              <th className="text-2xl">Priority</th>
               <th></th>
             </tr>
           </thead>
@@ -346,6 +423,28 @@ function ToDoTable() {
                   ></TextField>
                 </div>
               </td>
+              <td>
+                <div>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">
+                      Priority
+                    </InputLabel>
+                    <Select
+                      fullWidth
+                      required
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={Priority}
+                      label="Priority"
+                      onChange={(e) => handleSelectChange(e)}
+                    >
+                      <MenuItem value={3}>High</MenuItem>
+                      <MenuItem value={2}>Medium</MenuItem>
+                      <MenuItem value={1}>Low</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -380,7 +479,21 @@ function ToDoTable() {
               <th className="text-2xl">Subject</th>
               <th className="text-2xl">Task</th>
               <th className="text-2xl">Deadline</th>
-              <th className="text-2xl"></th>
+              <th className="text-2xl">Priority</th>
+              <th className="text-2xl">
+                <FormControl>
+                  <FormHelperText>Order By</FormHelperText>
+                  <Select
+                    value={filter}
+                    onChange={handleFilterChange}
+                    fullWidth
+                  >
+                    <MenuItem value="Subject">Subject</MenuItem>
+                    <MenuItem value="Deadline">Deadline</MenuItem>
+                    <MenuItem value="Priority">Priority</MenuItem>
+                  </Select>
+                </FormControl>
+              </th>
             </tr>
           </thead>
 
@@ -488,6 +601,44 @@ function ToDoTable() {
                     </td>
                   </tr>
                 </td>
+
+                <td id="Priority" className="w-1/4">
+                  <tr className="border-none">
+                    <th></th>
+                    <td>
+                      <div className="flex items-center gap-3"></div>
+                      <div
+                        className="cursor-default"
+                        style={{ width: "130px" }}
+                      >
+                        {editTodoId === todo.id ? (
+                          <Select
+                            fullWidth
+                            required
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={editPriority}
+                            label="Priority"
+                            onChange={(e) => setEditPriority(e.target.value)}
+                          >
+                            <MenuItem value={3}>High</MenuItem>
+                            <MenuItem value={2}>Medium</MenuItem>
+                            <MenuItem value={1}>Low</MenuItem>
+                          </Select>
+                        ) : (
+                          <Typography style={{ fontSize: "17px" }}>
+                            {todo.Priority === 1
+                              ? "Low"
+                              : todo.Priority === 2
+                              ? "Medium"
+                              : "High"}
+                          </Typography>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                </td>
+
                 <td>
                   <ListItem
                     sx={{ pl: 12 }}

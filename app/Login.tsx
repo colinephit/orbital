@@ -1,11 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import TotalHours from "./toDoList/components/Rewards/Points";
 import Link from "next/link";
 import Button from "@mui/material/Button";
+import { alpha, styled } from "@mui/material/styles";
+import { pink } from "@mui/material/colors";
+import Switch from "@mui/material/Switch";
 import { db } from "../firebase"; // Adjust the import path as necessary
 import {
   collection,
@@ -15,6 +18,21 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import { FormControlLabel } from "@mui/material";
+
+const PinkSwitch = styled(Switch)(({ theme }) => ({
+  "& .MuiSwitch-switchBase.Mui-checked": {
+    color: pink[600],
+    "&:hover": {
+      backgroundColor: alpha(pink[600], theme.palette.action.hoverOpacity),
+    },
+  },
+  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+    backgroundColor: pink[600],
+  },
+}));
+
+const label = { inputProps: { "aria-label": "music switch" } };
 
 const LogIn = () => {
   const { data: session } = useSession();
@@ -23,6 +41,8 @@ const LogIn = () => {
   const authenticated = session?.user !== undefined;
 
   const [userData, setUserData] = useState({ name: "", image: "" });
+  const [isAudioPlaying, setIsAudioPlaying] = useState(true);
+  const audioRef = useRef(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -59,6 +79,15 @@ const LogIn = () => {
     router.push("/");
   };
 
+  const handleAudioToggle = () => {
+    setIsAudioPlaying((prev) => !prev);
+    if (isAudioPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+  };
+
   const linkStyle = {
     textDecoration: "none",
     color: "black",
@@ -67,6 +96,9 @@ const LogIn = () => {
   if (session && session.user) {
     return (
       <div className="flex-none gap-2">
+        <audio id="audio" loop autoPlay ref={audioRef}>
+          <source src="/music.mp3" />
+        </audio>
         <div className="dropdown dropdown-end bg-white">
           <div
             tabIndex={0}
@@ -109,6 +141,21 @@ const LogIn = () => {
               >
                 My Friends
               </Link>
+            </li>
+
+            <li className="width-full items-center">
+              <FormControlLabel
+                value="end"
+                control={
+                  <PinkSwitch
+                    {...label}
+                    checked={isAudioPlaying}
+                    onChange={handleAudioToggle}
+                  />
+                }
+                label="Music"
+                labelPlacement="end"
+              />
             </li>
 
             <li>
