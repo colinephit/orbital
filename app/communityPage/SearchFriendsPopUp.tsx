@@ -101,18 +101,21 @@ function SearchFriendsPopUp() {
 
         <DialogContent>
           <DialogContentText>Enter your friend's email</DialogContentText>
+
           <TextField
             autoFocus
             required
             margin="dense"
-            id="name"
+            data-testid="email"
             name="email"
             label="Email Address"
             type="email"
             fullWidth
             variant="standard"
             style={{ height: "100px" }}
-          />
+          >
+            <input></input>
+          </TextField>
         </DialogContent>
 
         {/*each possible friend will show up in each of these cards*/}
@@ -129,7 +132,11 @@ function SearchFriendsPopUp() {
             noUserFound && (
               <Alert
                 severity="error"
-                style={{ width: "300px", justifyContent: "center" }}
+                style={{
+                  width: "300px",
+                  justifyContent: "center",
+                  fontSize: "18px",
+                }}
               >
                 No user found
               </Alert>

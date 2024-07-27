@@ -146,33 +146,62 @@ function Leaderboard() {
           }}
         >
           <Button
-            variant="outlined"
-            style={{
-              padding: "10px",
-              marginTop: "30px",
-              marginRight: "30px",
-              width: "180px",
-              fontSize: "16px",
-              color: "#558b2f",
-              borderColor: "#558b2f",
-              borderWidth: "1.5px",
-            }}
+            variant={leaderboardType === "weekly" ? "contained" : "outlined"}
+            style={
+              leaderboardType === "weekly"
+                ? {
+                    padding: "10px",
+                    marginTop: "30px",
+                    marginRight: "30px",
+                    width: "180px",
+                    fontSize: "16px",
+                    color: "#fafafa",
+                    backgroundColor: "#9ccc65",
+                    borderColor: "#558b2f",
+                    borderWidth: "1.5px",
+                  }
+                : {
+                    padding: "10px",
+                    marginTop: "30px",
+                    marginRight: "30px",
+                    width: "180px",
+                    fontSize: "16px",
+                    color: "#558b2f",
+                    borderColor: "white",
+                    borderWidth: "1.5px",
+                  }
+            }
             onClick={() => setLeaderboardType("weekly")}
             endIcon={<DateRangeIcon />}
           >
             Weekly
           </Button>
           <Button
-            variant="outlined"
-            style={{
-              padding: "10px",
-              width: "180px",
-              marginTop: "30px",
-              fontSize: "16px",
-              color: "#558b2f",
-              borderColor: "#558b2f",
-              borderWidth: "1.5px",
-            }}
+            variant={leaderboardType === "weekly" ? "outlined" : "contained"}
+            style={
+              leaderboardType === "weekly"
+                ? {
+                    padding: "10px",
+                    marginTop: "30px",
+                    marginRight: "30px",
+                    width: "180px",
+                    fontSize: "16px",
+                    color: "#558b2f",
+                    borderColor: "white",
+                    borderWidth: "1.5px",
+                  }
+                : {
+                    padding: "10px",
+                    marginTop: "30px",
+                    marginRight: "30px",
+                    width: "180px",
+                    fontSize: "16px",
+                    color: "#fafafa",
+                    backgroundColor: "#9ccc65",
+                    borderColor: "#558b2f",
+                    borderWidth: "1.5px",
+                  }
+            }
             onClick={() => setLeaderboardType("allTime")}
             endIcon={<EmojiEventsRoundedIcon />}
           >

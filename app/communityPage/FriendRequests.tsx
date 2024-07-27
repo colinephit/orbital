@@ -140,7 +140,7 @@ function FriendRequests({ request }) {
           display: "flex",
           alignItems: "center",
           marginTop: "10px",
-          width: 580,
+          width: 550,
           height: 200,
           backgroundColor: amber[50],
         }}

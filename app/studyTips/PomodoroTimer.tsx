@@ -120,12 +120,15 @@ const PomodoroTimer = () => {
             <Typography sx={{ fontSize: "75px", pt: "90px" }}>
               {isBreak ? "Break" : "Focus"}{" "}
             </Typography>
-            <div>
+            <div
+              title="timer-display"
+              style={{ display: "flex", flexDirection: "row" }}
+            >
               <span style={{ fontSize: "100px" }}>
-                {minutes < 10 ? `0${minutes}` : minutes} :{" "}
+                <p>{minutes < 10 ? `0${minutes}` : minutes} : </p>
               </span>
               <span style={{ fontSize: "100px" }}>
-                {seconds < 10 ? `0${seconds}` : seconds}{" "}
+                <p>{seconds < 10 ? `0${seconds}` : seconds} </p>
               </span>
             </div>
             <div

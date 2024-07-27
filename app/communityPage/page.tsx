@@ -143,8 +143,8 @@ function Page() {
                   severity="warning"
                   sx={{
                     fontSize: "17px",
-                    width: "40%",
-                    marginLeft: "20%",
+                    marginLeft: "10%",
+                    marginRight: "10%",
                     marginBottom: "40px",
                   }}
                   icon={<InfoIcon />}

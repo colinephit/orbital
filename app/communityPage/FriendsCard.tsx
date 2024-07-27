@@ -93,7 +93,14 @@ function FriendsCard({ friend }) {
         maxWidth: "700px",
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", paddingLeft: 20 }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          paddingLeft: 20,
+          flex: 1,
+        }}
+      >
         <Avatar
           //@ts-ignore
           src={info.image}
@@ -105,16 +112,10 @@ function FriendsCard({ friend }) {
             marginLeft: "10px",
             borderRadius: "50%",
           }}
-        >
-          <PersonIcon sx={{ height: 70, width: 50 }} />
-        </Avatar>
-        <div>
+        />
+        <div style={{ marginLeft: "40px" }}>
           <div
             style={{
-              alignItems: "left",
-              justifyContent: "left",
-              display: "flex",
-              marginLeft: "40px",
               marginBottom: "10px",
               fontSize: "28px",
               fontFamily: "Segoe UI",
@@ -125,7 +126,6 @@ function FriendsCard({ friend }) {
           </div>
           <div
             style={{
-              marginLeft: "40px",
               marginBottom: "15px",
               fontSize: "27px",
               fontFamily: "Segoe UI",
@@ -134,20 +134,20 @@ function FriendsCard({ friend }) {
             {points + " points"}
           </div>
         </div>
-        <div>
-          <img
-            src={imgSrc}
-            alt=""
-            width="150"
-            height="130"
-            style={{
-              marginTop: "10px",
-              marginLeft: "10px",
-              marginRight: "10px",
-              marginBottom: "10px",
-            }}
-          />
-        </div>
+      </div>
+      <div>
+        <img
+          src={imgSrc}
+          alt=""
+          width="150"
+          height="130"
+          style={{
+            marginTop: "10px",
+            marginLeft: "10px",
+            marginRight: "10px",
+            marginBottom: "10px",
+          }}
+        />
       </div>
     </Card>
   );
