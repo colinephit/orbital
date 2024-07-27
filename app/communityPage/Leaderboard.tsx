@@ -131,7 +131,7 @@ function Leaderboard() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        marginBottom: "640px",
+        marginBottom: "440px",
         marginLeft: "60px",
       }}
     >
