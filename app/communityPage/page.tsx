@@ -94,6 +94,7 @@ function Page() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        marginTop: "30px",
       }}
     >
       <div>
@@ -107,56 +108,51 @@ function Page() {
       >
         <div
           style={{
+            paddingBottom: "30px",
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
+            marginTop: "80px",
+            width: "100%",
           }}
         >
-          <div
-            style={{
-              paddingBottom: "30px",
-              marginTop: "60px",
-              width: "100%",
-            }}
-          >
-            <h1 style={{ textAlign: "center" }}>Friend Requests</h1>
-            <div>
-              {requests.length === 0 && (
-                <Alert
-                  sx={{
-                    fontSize: "17px",
-                    width: "80%",
-                    marginLeft: "10%",
-                    marginTop: "20px",
-                    textAlign: "center",
-                  }}
-                  severity="success"
-                >
-                  You have no pending friend requests
-                </Alert>
-              )}
-            </div>
-
-            <div style={{ marginTop: "20px" }}>
-              {requests.length != 0 && (
-                <Alert
-                  severity="warning"
-                  sx={{
-                    fontSize: "17px",
-                    marginLeft: "10%",
-                    marginRight: "10%",
-                    marginBottom: "40px",
-                  }}
-                  icon={<InfoIcon />}
-                >
-                  You have {requests.length} pending friend requests.
-                </Alert>
-              )}
-              {requests.map((request, index) => (
-                <FriendRequests key={index} request={request} />
-              ))}
-            </div>
+          <h1 style={{ textAlign: "center" }}>Friend Requests</h1>
+          <div>
+            {requests.length === 0 && (
+              <Alert
+                sx={{
+                  fontSize: "17px",
+                  width: "80%",
+                  marginLeft: "10%",
+                  marginTop: "20px",
+                  textAlign: "center",
+                }}
+                severity="success"
+              >
+                You have no pending friend requests
+              </Alert>
+            )}
           </div>
+
+          <div style={{ marginTop: "20px" }}>
+            {requests.length != 0 && (
+              <Alert
+                severity="warning"
+                sx={{
+                  fontSize: "17px",
+                  marginLeft: "10%",
+                  marginRight: "10%",
+                  marginBottom: "40px",
+                }}
+                icon={<InfoIcon />}
+              >
+                You have {requests.length} pending friend requests.
+              </Alert>
+            )}
+            {requests.map((request, index) => (
+              <FriendRequests key={index} request={request} />
+            ))}
+          </div>
+
           <div style={{ textAlign: "center" }}>
             <h1 className="text-center">My Friends</h1>
             <div
@@ -172,6 +168,7 @@ function Page() {
             </div>
           </div>
         </div>
+
         <div
           style={{
             display: "flex",

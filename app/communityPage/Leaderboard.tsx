@@ -131,7 +131,8 @@ function Leaderboard() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        marginBottom: "200px",
+        marginBottom: "640px",
+        marginLeft: "60px",
       }}
     >
       <div style={{ width: "750px" }}>

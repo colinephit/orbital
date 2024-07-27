@@ -11,7 +11,7 @@ function CompletedToDoListTable({ emptyables }) {
       <thead>
         <tr>
           <th></th>
-          <th className="text-2xl cursor-default">Subject</th>
+          <th className="text-2xl cursor-default w-1/5">Subject</th>
           <th className="text-2xl cursor-default w-1/5">Task</th>
           <th className="text-2xl cursor-default w-1/5">Deadline</th>
           <th className="text-2xl cursor-default w-1/5">Date of Completion</th>

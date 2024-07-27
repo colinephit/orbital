@@ -30,6 +30,9 @@ export default function StudyTips() {
       </div>
 
       <div className="p-3 flex justify-center items-center flex-col">
+        <p style={{ fontSize: "18px" }}>
+          Click on each flashcard to learn more about each study tip!
+        </p>
         <TipsCarousel flashcards={flashcards} />
       </div>
     </div>

@@ -476,8 +476,8 @@ function ToDoTable() {
           <thead>
             <tr>
               <th></th>
-              <th className="text-2xl">Subject</th>
-              <th className="text-2xl">Task</th>
+              <th className="text-2xl w-1/5">Subject</th>
+              <th className="text-2xl w-1/5">Task</th>
               <th className="text-2xl">Deadline</th>
               <th className="text-2xl">Priority</th>
               <th className="text-2xl">
@@ -487,6 +487,7 @@ function ToDoTable() {
                     value={filter}
                     onChange={handleFilterChange}
                     fullWidth
+                    style={{ width: "180px" }}
                   >
                     <MenuItem value="Subject">Subject</MenuItem>
                     <MenuItem value="Deadline">Deadline</MenuItem>
@@ -502,41 +503,44 @@ function ToDoTable() {
             <tbody>
               <tr className="hover">
                 <th>
-                  <PopUp
-                    // onClickAction contains the function that adds to do list to completed to do list
-                    // after the "confirm" button is clicked on the pop up
-                    onClickAction={async (selectedHours) => {
-                      const addedCompletedId = await addCompletedToFirebase(
-                        todo.Subject,
-                        todo.Task,
-                        todo.Deadline,
-                        selectedHours,
-                        currentUser?.data?.user?.email
-                      );
-                      const addedEmptyableId = await addEmptyableToFirebase(
-                        todo.Subject,
-                        todo.Task,
-                        todo.Deadline,
-                        selectedHours,
-                        currentUser?.data?.user?.email
-                      );
-                      const deletedTodoId = await deleteTodosFromFirestore(
-                        todo.id
-                      );
-
-                      if (deletedTodoId) {
-                        const updatedTodos = todos.filter(
-                          (t) => t.id !== deletedTodoId
+                  <div style={{ marginBottom: "20px" }}>
+                    <PopUp
+                      // onClickAction contains the function that adds to do list to completed to do list
+                      // after the "confirm" button is clicked on the pop up
+                      onClickAction={async (selectedHours) => {
+                        const addedCompletedId = await addCompletedToFirebase(
+                          todo.Subject,
+                          todo.Task,
+                          todo.Deadline,
+                          selectedHours,
+                          currentUser?.data?.user?.email
                         );
-                        setTodos(updatedTodos);
-                      }
-                      location.reload();
-                    }}
-                    inputProps={{ "aria-label": "controlled" }}
-                  />
+                        const addedEmptyableId = await addEmptyableToFirebase(
+                          todo.Subject,
+                          todo.Task,
+                          todo.Deadline,
+                          selectedHours,
+                          currentUser?.data?.user?.email
+                        );
+                        const deletedTodoId = await deleteTodosFromFirestore(
+                          todo.id
+                        );
+
+                        if (deletedTodoId) {
+                          const updatedTodos = todos.filter(
+                            (t) => t.id !== deletedTodoId
+                          );
+                          setTodos(updatedTodos);
+                        }
+
+                        location.reload();
+                      }}
+                      inputProps={{ "aria-label": "controlled" }}
+                    />
+                  </div>
                 </th>
 
-                <td id="Subject" className="w-1/4">
+                <td id="Subject" className="w-1/5">
                   <tr className="border-none">
                     <th></th>
                     <td>
@@ -557,7 +561,7 @@ function ToDoTable() {
                   </tr>
                 </td>
 
-                <td id="Task" className="w-1/4">
+                <td id="Task" className="w-1/5">
                   <tr className="border-none">
                     <td>
                       <div className="flex items-center gap-3"></div>
@@ -576,7 +580,7 @@ function ToDoTable() {
                     </td>
                   </tr>
                 </td>
-                <td id="Deadline">
+                <td id="Deadline" className="w-1/5">
                   <tr className="border-none">
                     <th></th>
                     <td>

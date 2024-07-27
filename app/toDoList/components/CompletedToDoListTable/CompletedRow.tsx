@@ -12,7 +12,7 @@ function CompletedRow({ subject, task, deadline, completionDate, hours }) {
     <tr>
       <th></th>
 
-      <td id="Subject">
+      <td id="Subject" className="w-1/5">
         <tr className="border-none">
           <td>
             <div className="flex items-center gap-3 cursor-default">
