@@ -28,6 +28,7 @@ function Login() {
         router.push("/");
       } else {
         alert("No user found");
+        router.push("/register");
       }
     });
   };

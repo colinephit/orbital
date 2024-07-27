@@ -65,7 +65,6 @@ function Profile() {
   };
 
   const handleSaveClick = async () => {
-    location.reload();
     try {
       const userDocId = await getUserDocId(session.user.email);
       if (userDocId) {
@@ -85,6 +84,8 @@ function Profile() {
         );
         setUserData({ name: updatedName, image: newImageUrl });
         setIsEditing(false);
+
+        location.reload();
       } else {
         console.error("User document not found");
       }
