@@ -117,51 +117,53 @@ function Profile() {
         justifyContent: "center",
         display: "flex",
         flexDirection: "column",
+        backgroundColor: "#ffffff",
       }}
     >
       <h3 className="text-center">My Profile</h3>
-
-      <div style={{ width: "100px", height: "100px" }}>
-        <img
-          src={previewImage}
-          alt="User profile"
-          style={{
-            width: "100px",
-            height: "100px",
-            borderRadius: "50%",
-            objectFit: "cover",
-            cursor: isEditing ? "pointer" : "default",
-          }}
-          onClick={() =>
-            isEditing && document.getElementById("imageUpload").click()
-          }
-        />
-        {isEditing && (
-          <input
-            type="file"
-            id="imageUpload"
-            style={{ display: "none" }}
-            onChange={handleImageChange}
+      <div style={{ height: "100vh" }}>
+        <div style={{ width: "100px", height: "100px" }}>
+          <img
+            src={previewImage}
+            alt="User profile"
+            style={{
+              width: "100px",
+              height: "100px",
+              borderRadius: "50%",
+              objectFit: "cover",
+              cursor: isEditing ? "pointer" : "default",
+            }}
+            onClick={() =>
+              isEditing && document.getElementById("imageUpload").click()
+            }
           />
-        )}
-      </div>
-      <br />
-      <div className="mb-3 text-center">
-        <h4>Name</h4>
-        {isEditing ? (
-          <div>
-            <TextField
-              value={updatedName}
-              onChange={(e) => setUpdatedName(e.target.value)}
+          {isEditing && (
+            <input
+              type="file"
+              id="imageUpload"
+              style={{ display: "none" }}
+              onChange={handleImageChange}
             />
-            <ToDoButton text="Save" onClickAction={handleSaveClick} />
-          </div>
-        ) : (
-          <div>
-            <p>{userData.name}</p>
-            <ToDoButton text="Edit" onClickAction={handleEditClick} />
-          </div>
-        )}
+          )}
+        </div>
+        <br />
+        <div className="mb-3 text-center">
+          <h4>Name</h4>
+          {isEditing ? (
+            <div>
+              <TextField
+                value={updatedName}
+                onChange={(e) => setUpdatedName(e.target.value)}
+              />
+              <ToDoButton text="Save" onClickAction={handleSaveClick} />
+            </div>
+          ) : (
+            <div>
+              <p>{userData.name}</p>
+              <ToDoButton text="Edit" onClickAction={handleEditClick} />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
